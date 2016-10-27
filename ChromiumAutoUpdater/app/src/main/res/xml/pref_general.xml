@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="updateEvery"
+        android:title="@string/updateEvery_title"
+        android:inputType="number"
+        android:defaultValue="7"
+    />
+
+    <CheckBoxPreference
+        android:key="noMobileConnections"
+        android:title="@string/avoidMobile_title"
+        android:defaultValue="true"
+        />
+
+    <Preference
+        android:key="hideApp"
+        android:title="@string/hide_title"
+        android:summary="@string/hide_desc"
+        />
+
+    <Preference
+        android:key="github"
+        android:title="@string/github_title"
+        android:summary="@string/github_desc"
+        />
+
+
+
+</PreferenceScreen>

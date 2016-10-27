@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Chromium Auto Updater</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="title">Chromium will be updated automatically</string>
+    <string name="intro">You can hide this app if you want</string>
+    <string name="version">Version 0.1 beta</string>
+
+    <string name="notification">Updating Chromium</string>
+
+    <string name="updateEvery_title">Update every (days)</string>
+    <string name="avoidMobile_title">Avoid mobile connections</string>
+    <string name="hide_title">Hide app from menu</string>
+    <string name="hide_desc">Reinstall the app to see it again</string>
+    <string name="hide_clicked">The app will disappear soon</string>
+    <string name="github_title">See project on Github</string>
+    <string name="github_desc">Report bugs or contribute</string>
+    <string name="github">https://github.com/adolfintel/chromiumUpdater</string>
+
+
+</resources>
