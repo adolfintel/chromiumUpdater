@@ -4,7 +4,7 @@
 
     <string name="title">Chromium will be updated automatically</string>
     <string name="intro">You can hide this app if you want</string>
-    <string name="version">Version 0.1 beta</string>
+    <string name="version">Version 0.2 beta</string>
 
     <string name="notification">Updating Chromium</string>
 

@@ -205,8 +205,9 @@ public class ChromiumUpdater extends Service {
 
     }
 
-    @Override
-    public void onStart(Intent intent, int startid) {
+    public int onStartCommand (Intent intent, int flags, int startId){
         if(t==null||!t.isAlive()){t=new UpdateThread();t.start();}
+        return START_STICKY;
     }
+
 }
