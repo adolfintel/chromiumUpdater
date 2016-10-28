@@ -62,12 +62,12 @@ public class ChromiumUpdater extends Service {
                     if(Utils.getTimestamp()-lastUpdate>=updateEvery){
                         Log.d(TAG,"Updating Chromium");
                         lastUpdate=Utils.getTimestamp();
+                        downloadUpdate();
                         try{
                             DataOutputStream fos=new DataOutputStream(getApplicationContext().openFileOutput("lastUpdate", Context.MODE_PRIVATE));
                             fos.writeLong(lastUpdate);
                             fos.close();
                         }catch(Throwable e){}
-                        downloadUpdate();
                     }else Log.d(TAG,"No update necessary");
                 }else Log.d(TAG,"Updater is busy, skipping tick");
                 try{sleep(30000);}catch(Throwable e){}

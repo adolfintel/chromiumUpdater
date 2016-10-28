@@ -1,4 +1,4 @@
-# Chromium Auto Updater [Root] 
+# [Chromium Auto Updater [Root]](http://adolfintel.com/?p=chromium/index.frag)
 ![Logo](http://adolfintel.com/chromium/icon.png) 
 
 ## Introduction
@@ -12,7 +12,7 @@ This is still a work in progress, so it may not work on your device.
 Test APK: [Download](http://downloads.adolfintel.com/geth.php?r=chromiumUpdater-apk)
 
 ## Compatibility
-Android 5.0 (SDK 21) or newer
+Android 4.4 (SDK 19) or newer
 
 **ROOT REQUIRED!**
 

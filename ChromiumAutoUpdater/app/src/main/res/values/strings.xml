@@ -4,11 +4,10 @@
 
     <string name="title">Chromium will be updated automatically</string>
     <string name="intro">You can hide this app if you want</string>
-    <string name="version">Version 0.3 beta</string>
+    <string name="version">Version 0.4 beta</string>
 
-    <string name="noroot_title">Device not rooted</string>
-    <string name="noroot_text">This application requires a rooted device.\nYou can find instruction online on how to root your device.\n\n--This is not an application error--</string>
-    <string name="noroot_exit">Close application</string>
+    <string name="noroot_title">Root required</string>
+    <string name="noroot_text">This application requires a rooted device.You can find instruction online on how to root your device.<br /><br />This is not an application error!</string>
 
     <string name="notification">Updating Chromium</string>
 

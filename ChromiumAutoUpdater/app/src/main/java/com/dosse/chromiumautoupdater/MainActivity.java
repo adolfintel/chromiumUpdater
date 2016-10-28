@@ -7,7 +7,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,16 +27,7 @@ public class MainActivity extends AppCompatActivity{
             noRootMessage();
         }else{
             try{
-                Process p=Runtime.getRuntime().exec("su");
-                OutputStream os=p.getOutputStream();
-                os.write("touch /test.dat\n".getBytes("ASCII")); os.flush();
-                Thread.sleep(100);
-                if(new File("/test.dat").exists()){
-                    os.write("rm /test.dat\n".getBytes("ASCII")); os.flush();
-                    os.write("exit\n".getBytes("ASCII")); os.flush(); os.close(); p.waitFor();
-                }else{
-                    noRootMessage();
-                }
+                Runtime.getRuntime().exec("su -c exit").waitFor();
             }catch(Throwable e){noRootMessage();}
         }
         while(!Utils.canWriteToSdcard(this)){ ActivityCompat.requestPermissions(this,new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },1); try{Thread.sleep(1000);}catch(Throwable e){}}
@@ -49,12 +42,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void noRootMessage(){
-        new AlertDialog.Builder(getApplicationContext()).setTitle(getString(R.string.noroot_title)).setMessage(getString(R.string.noroot_text)).setNeutralButton(getString(R.string.noroot_exit), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                System.exit(0);
-            }
-        });
+        ((TextView)(findViewById(R.id.textView))).setText(getString(R.string.noroot_title));
+        ((TextView)(findViewById(R.id.textView4))).setText(getString(R.string.noroot_text));
     }
 
 }
