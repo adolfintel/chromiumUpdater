@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
@@ -78,32 +79,26 @@ public class ChromiumUpdater extends Service {
                 busy=true;
                 NotificationManager mNotifyManager=null;
                 try {
-                    mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
-                    mBuilder.setContentTitle(getString(R.string.notification)).setSmallIcon(R.drawable.notification);
-                    mBuilder.setProgress(100, 0, true);
-                    mNotifyManager.notify(1, mBuilder.build());
-                }catch(Throwable t){}
-                try {
                     if(!Utils.isRooted()){
-                        Log.d(TAG,"Device not rooted");
-                        return;
+                        throw new Exception("Device not rooted");
                     }
                     if(!Utils.canWriteToSdcard(ChromiumUpdater.this)){
-                        Log.d(TAG,"Cannot write to sdcard");
-                        return;
+                        throw new Exception("Cannot write to sdcard");
                     }
                     if(!Utils.isConnected(getApplicationContext())){
-                        Log.d(TAG,"No Internet");
-                        lastUpdate=0; //retry asap
-                        return;
+                        throw new Exception("No Internet");
                     }
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
                     if(prefs.getBoolean("noMobileConnections",true)&&Utils.isMobileConnection(getApplicationContext())){
-                        Log.d(TAG,"Avoiding mobile connection");
-                        lastUpdate=0; //retry asap
-                        return;
+                        throw new Exception("Avoiding mobile connection");
                     }
+                    try {
+                        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
+                        mBuilder.setContentTitle(getString(R.string.notification)).setSmallIcon(R.drawable.notification);
+                        mBuilder.setProgress(100, 0, true);
+                        mNotifyManager.notify(1, mBuilder.build());
+                    }catch(Throwable t){}
                     File sdcard=Environment.getExternalStorageDirectory();
                     URL u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/LAST_CHANGE");
                     URLConnection c = u.openConnection();
@@ -166,9 +161,9 @@ public class ChromiumUpdater extends Service {
                     String path=new File(sdcard,"chromium.apk").getAbsolutePath();
                     Log.d(TAG, path);
                     Process p=Runtime.getRuntime().exec("su");
-                    BufferedWriter w=new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-                    w.write("pm install -r "+path+"\n"); w.flush();
-                    w.write("exit\n"); w.flush(); w.close();
+                    OutputStream os=p.getOutputStream();
+                    os.write(("pm install -r "+path+"\n").getBytes("ASCII")); os.flush();
+                    os.write("exit\n".getBytes("ASCII")); os.flush(); os.close();
                     p.waitFor();
                     Log.d(TAG, "apk installed");
                     Log.d(TAG, "deleting apk");
