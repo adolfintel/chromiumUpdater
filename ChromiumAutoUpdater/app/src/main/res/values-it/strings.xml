@@ -12,7 +12,7 @@
     <string name="title">Chromium sarà aggiornato automaticamente</string>
     <string name="title_activity_settings">Impostazioni</string>
     <string name="updateEvery_title">Frequenza aggiornamento (giorni)</string>
-    <string name="version">Version 0.4 beta</string>
+    <string name="version">Version 1.0</string>
     <string name="github">https://github.com/adolfintel/chromiumUpdater</string>
     <string name="noroot_text">Questa applicazione richiede il root. Puoi trovare istruzioni online su come fare il root al tuo dispositivo.<br /><br />Questo non è un errore dell\'applicazione!</string>
     <string name="noroot_title">Root richiesto</string>

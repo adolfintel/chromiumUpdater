@@ -10,7 +10,7 @@
     <CheckBoxPreference
         android:key="noMobileConnections"
         android:title="@string/avoidMobile_title"
-        android:defaultValue="true"
+        android:defaultValue="false"
         />
 
     <Preference

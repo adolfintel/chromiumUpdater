@@ -1,26 +1,19 @@
 package com.dosse.chromiumautoupdater;
 
-import android.Manifest;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
+import static com.dosse.chromiumautoupdater.Utils.log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
@@ -29,56 +22,73 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Created by Federico on 2016-10-26.
+ * The actual Updater Service.
+ *
+ * When the service is started, it creates a new thread which checks periodically for updates.
+ * Every 30 seconds, it checks the timestamp and if it's been long enough since the last update was installed, it will download and install the latest APK.
+ *
  */
 
 public class ChromiumUpdater extends Service {
     private static final String TAG = "Chromium Updater Svc";
 
-    private boolean busy=false;
-    private long lastUpdate=0;
+    private static UpdateThread t=null;
+    private static boolean busy=false; //if for obscure reasons the service is started multiple times, this is used to avoid overlapping
 
+    /**
+     * The actual thread which checks, downloads and installs updates
+     */
     private class UpdateThread extends Thread{
         public void run(){
+            long lastUpdate=0;
+            //read last update timestamp from file
             try{
                 DataInputStream fis=new DataInputStream(getApplicationContext().openFileInput("lastUpdate"));
                 lastUpdate=fis.readLong();
                 if(lastUpdate>Utils.getTimestamp()) lastUpdate=0;
                 fis.close();
             }catch(Throwable e){}
+            //if the file was not present or was invalid, lastUpdate will be 0 and chromium will be downloaded asap
             for(;;) {
                 if(!busy){
-                    Log.d(TAG, "THREAD ALIVE");
+                    log("THREAD ALIVE");
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
-                    long updateEvery=Integer.parseInt(prefs.getString("updateEvery","7"))*86400000L;
-                    Log.d(TAG,"Timestamp: "+Utils.getTimestamp()+" Last update: "+lastUpdate+" Next update: "+(lastUpdate+updateEvery));
-                    if(Utils.getTimestamp()-lastUpdate>=updateEvery){
-                        Log.d(TAG,"Updating Chromium");
-                        lastUpdate=Utils.getTimestamp();
-                        downloadUpdate();
+                    //how often do we need to download updates?
+                    long updateEvery=Integer.parseInt(prefs.getString("updateEvery","7"))*86400000L; //days -> milliseconds
+                    log("Timestamp: "+Utils.getTimestamp()+" Last update: "+lastUpdate+" Next update: "+(lastUpdate+updateEvery));
+                    if(Utils.getTimestamp()-lastUpdate>=updateEvery){ //time to update
+                        log("Updating Chromium");
+                        lastUpdate=downloadUpdate(); //downloadUpdate will download and install the latest build and return either the current timestamp (success) or 0 (error, try again asap)
+                        //save timestamp (or 0) to file
                         try{
                             DataOutputStream fos=new DataOutputStream(getApplicationContext().openFileOutput("lastUpdate", Context.MODE_PRIVATE));
                             fos.writeLong(lastUpdate);
                             fos.close();
                         }catch(Throwable e){}
-                    }else Log.d(TAG,"No update necessary");
-                }else Log.d(TAG,"Updater is busy, skipping tick");
+                    }else log("No update necessary");
+                }else log("Updater is busy, skipping tick");
+                //wait 30 seconds
                 try{sleep(30000);}catch(Throwable e){}
             }
         }
 
-        private void downloadUpdate(){
+        /**
+         * Downloads and installs the latest version of chromium from https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android
+         * @return timestamp (success) or 0 (error)
+         */
+        private long downloadUpdate(){
+            long ret=Utils.getTimestamp();
             synchronized(ChromiumUpdater.this){
                 busy=true;
                 NotificationManager mNotifyManager=null;
                 try {
+                    //can we actually update chromium?
                     if(!Utils.isRooted()){
                         throw new Exception("Device not rooted");
                     }
@@ -89,9 +99,11 @@ public class ChromiumUpdater extends Service {
                         throw new Exception("No Internet");
                     }
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
-                    if(prefs.getBoolean("noMobileConnections",true)&&Utils.isMobileConnection(getApplicationContext())){
+                    if(prefs.getBoolean("noMobileConnections",false)&&Utils.isMobileConnection(getApplicationContext())){
                         throw new Exception("Avoiding mobile connection");
                     }
+                    //ok, we can do it
+                    //create update notification with indeterminate progressbar
                     try {
                         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
@@ -100,19 +112,21 @@ public class ChromiumUpdater extends Service {
                         mNotifyManager.notify(1, mBuilder.build());
                     }catch(Throwable t){}
                     File sdcard=Environment.getExternalStorageDirectory();
+                    //get id of latest build
                     URL u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/LAST_CHANGE");
                     URLConnection c = u.openConnection();
                     c.connect();
                     BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
                     String lastVer = br.readLine();
                     br.close();
-                    Log.d(TAG, "last build " + lastVer);
+                    log("last build " + lastVer);
+                    //download zip of latest build to sdcard
                     u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/" + lastVer + "/chrome-android.zip");
                     c = u.openConnection();
                     c.connect();
                     InputStream in = new BufferedInputStream(u.openStream());
                     FileOutputStream out = new FileOutputStream(new File(sdcard,"chromium.zip"));
-                    Log.d(TAG, "download started");
+                    log("download started");
                     for (;;) {
                         byte[] buff = new byte[8192];
                         try {
@@ -127,14 +141,15 @@ public class ChromiumUpdater extends Service {
                     in.close();
                     out.flush();
                     out.close();
-                    Log.d(TAG, "download complete");
-                    Log.d(TAG, "extracting");
+                    log("download complete");
+                    //now we have to scan the zip file and extract the APK
+                    log("extracting");
                     ZipInputStream zin = new ZipInputStream(new FileInputStream(new File(sdcard,"chromium.zip")));
                     ZipEntry z = null;
                     boolean foundApk=false;
                     while ((z = zin.getNextEntry()) != null) {
                         if (z.getName().contains("ChromePublic.apk")) {
-                            Log.d(TAG, "found apk");
+                            log("found apk");
                             foundApk=true;
                             out = new FileOutputStream(new File(sdcard,"chromium.apk"));
                             for (;;) {
@@ -147,43 +162,45 @@ public class ChromiumUpdater extends Service {
                                     break;
                                 }
                             }
-                            Log.d(TAG, "apk extracted");
+                            log("apk extracted");
                             zin.closeEntry();
                             out.close();
                             break;
                         }
                     }
                     zin.close();
-                    Log.d(TAG, "deleting zip");
+                    //now that we have the APK we can delete the zip file...
+                    log("deleting zip");
                     new File(sdcard,"chromium.zip").delete();
                     if(!foundApk) throw new Exception("No apk");
-                    Log.d(TAG, "installing apk");
+                    log("installing apk");
+                    //..and proceed to install it silently using some root wizardry
                     String path=new File(sdcard,"chromium.apk").getAbsolutePath();
-                    Log.d(TAG, path);
-                    Process p=Runtime.getRuntime().exec("su");
+                    log(path);
+                    Process p=Runtime.getRuntime().exec("su"); //create elevated shell
                     OutputStream os=p.getOutputStream();
-                    os.write(("pm install -r "+path+"\n").getBytes("ASCII")); os.flush();
-                    os.write("exit\n".getBytes("ASCII")); os.flush(); os.close();
-                    p.waitFor();
-                    Log.d(TAG, "apk installed");
-                    Log.d(TAG, "deleting apk");
+                    os.write(("pm install -r "+path+"\n").getBytes("ASCII")); os.flush(); //pm install -r chromium.apk
+                    os.write("exit\n".getBytes("ASCII")); os.flush(); os.close(); //close elevated shell
+                    p.waitFor(); //wait for it to actually terminate
+                    log("apk installed");
+                    //chromium is now installed (no real way to be sure actually) and we can delete the APK
+                    log("deleting apk");
                     new File(path).delete();
                 } catch (Throwable e) {
-                    Log.d(TAG, "err " + e);
-                    lastUpdate=0; //retry asap
+                    //something bad happened, return 0
+                    log("err " + e);
+                    ret=0;
                 }
+                //remove notification
                 try{
                     mNotifyManager.cancel(1);
                 }catch (Throwable t){}
                 busy=false;
             }
+            return ret;
         }
-
     }
 
-
-
-    private UpdateThread t=null;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -192,7 +209,7 @@ public class ChromiumUpdater extends Service {
 
     @Override
     public void onCreate() {
-        registerReceiver(new Starter(),new IntentFilter("android.intent.action.TIME_TICK"));
+        registerReceiver(new Starter(),new IntentFilter("android.intent.action.TIME_TICK")); //just to be sure, when the service is started we ask android to send an event every minute to restart it if it dies. it should not be necessary since (below) the service is declared sticky but android loves killing background shit so better safe than sorry
     }
 
     @Override
@@ -200,6 +217,9 @@ public class ChromiumUpdater extends Service {
 
     }
 
+    /*
+        called when the service is started. creates the UpdateThread if it's not already been created and tells android to restart the service if it dies (sticky)
+     */
     public int onStartCommand (Intent intent, int flags, int startId){
         if(t==null||!t.isAlive()){t=new UpdateThread();t.start();}
         return START_STICKY;

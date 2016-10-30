@@ -1,25 +1,19 @@
 package com.dosse.chromiumautoupdater;
 
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
-import android.util.Log;
 import android.widget.Toast;
 
 /**
- * Created by Federico on 2016-10-27.
+ * Settings activity
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -40,6 +34,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 }
             }
         }catch (Throwable t){}
+        //github link listener
         ((Preference)findPreference("github")).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -47,6 +42,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 return true;
             }
         });
+        //hide from launcher listener. a file is created to disable the option disabled if the app was already hidden.
         Preference hideApp=(Preference)findPreference("hideApp");
         try{
             getApplicationContext().openFileInput("hidden").close();
@@ -76,6 +72,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equalsIgnoreCase("updateEvery")){
+            //update frequency must be a positive integer
             if(Integer.parseInt(sharedPreferences.getString("updateEvery","7"))<1){
                 SharedPreferences.Editor e=sharedPreferences.edit();
                 e.putString("updateEvery","1");
