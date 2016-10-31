@@ -6,10 +6,9 @@
 Chromium on Android does not have automatic updates like Chrome. This app automatically installs Chromium and keeps it updated. Everything is done in background, just like regular Play Store apps.
 
 ## Download
+[Download from Google Play](https://play.google.com/store/apps/details?id=com.dosse.chromiumautoupdater)
 
 [Download APK](http://downloads.adolfintel.com/geth.php?r=chromiumUpdater-apk)
-
-Coming soon to Google Play and F-Droid
 
 ## Compatibility
 Android 4.4 (SDK 19) or newer
