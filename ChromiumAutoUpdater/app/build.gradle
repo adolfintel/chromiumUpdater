@@ -7,8 +7,8 @@ android {
         applicationId "com.dosse.chromiumautoupdater"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 5
-        versionName '1.0'
+        versionCode 6
+        versionName '1.1'
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

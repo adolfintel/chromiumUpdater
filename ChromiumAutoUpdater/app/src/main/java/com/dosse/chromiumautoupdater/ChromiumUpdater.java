@@ -104,13 +104,11 @@ public class ChromiumUpdater extends Service {
                     }
                     //ok, we can do it
                     //create update notification with indeterminate progressbar
-                    try {
-                        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
-                        mBuilder.setContentTitle(getString(R.string.notification)).setSmallIcon(R.drawable.notification);
-                        mBuilder.setProgress(100, 0, true);
-                        mNotifyManager.notify(1, mBuilder.build());
-                    }catch(Throwable t){}
+                    mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
+                    mBuilder.setContentTitle(getString(R.string.notification_title)).setSmallIcon(R.drawable.notification).setContentText(getString(R.string.notification_starting));
+                    mBuilder.setProgress(100, 0, true);
+                    mNotifyManager.notify(1, mBuilder.build());
                     File sdcard=Environment.getExternalStorageDirectory();
                     //get id of latest build
                     URL u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/LAST_CHANGE");
@@ -125,14 +123,25 @@ public class ChromiumUpdater extends Service {
                     c = u.openConnection();
                     c.connect();
                     InputStream in = new BufferedInputStream(u.openStream());
+                    int size=c.getContentLength(),downloaded=0;
                     FileOutputStream out = new FileOutputStream(new File(sdcard,"chromium.zip"));
                     log("download started");
+                    mBuilder.setProgress(100,0,false).setContentText(getString(R.string.notification_downloading)); //set progress bar to 0% and show Downloading
+                    mNotifyManager.notify(1, mBuilder.build());
+                    long lastNotUpdate=System.nanoTime();
                     for (;;) {
-                        byte[] buff = new byte[8192];
+                        byte[] buff = new byte[262144];
                         try {
                             int l = in.read(buff);
                             if(l==-1) break;
                             out.write(buff, 0, l);
+                            downloaded+=l;
+                            if(System.nanoTime()-lastNotUpdate>1000000000L){ //every 1s update notification
+                                lastNotUpdate=System.nanoTime();
+                                log(downloaded+"/"+size+" downloaded");
+                                mBuilder.setProgress(size,downloaded,false);
+                                mNotifyManager.notify(1, mBuilder.build());
+                            }
                         } catch (Exception e) {
                             if(!(e instanceof EOFException)) throw e;
                             break;
@@ -142,6 +151,8 @@ public class ChromiumUpdater extends Service {
                     out.flush();
                     out.close();
                     log("download complete");
+                    mBuilder.setProgress(100,0,true).setContentText(getString(R.string.notification_installing)); //set progress bar to indeterminate and show Installing update
+                    mNotifyManager.notify(1, mBuilder.build());
                     //now we have to scan the zip file and extract the APK
                     log("extracting");
                     ZipInputStream zin = new ZipInputStream(new FileInputStream(new File(sdcard,"chromium.zip")));
@@ -153,7 +164,7 @@ public class ChromiumUpdater extends Service {
                             foundApk=true;
                             out = new FileOutputStream(new File(sdcard,"chromium.apk"));
                             for (;;) {
-                                byte[] buff = new byte[8192];
+                                byte[] buff = new byte[262144];
                                 try {
                                     int l = zin.read(buff);
                                     if(l==-1) break;

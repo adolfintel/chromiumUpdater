@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -67,7 +68,7 @@ public class Utils {
         return Calendar.getInstance().getTimeInMillis();
     }
 
-    public static final boolean USE_LOG=false; //if set to false, log calls are ignored
+    public static final boolean USE_LOG= BuildConfig.DEBUG; //logging is only active in debug builds
 
     /**
      * Log
