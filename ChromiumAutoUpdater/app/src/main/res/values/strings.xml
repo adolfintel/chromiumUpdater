@@ -4,7 +4,7 @@
 
     <string name="title">Chromium will be updated automatically</string>
     <string name="intro">You can hide this app if you want</string>
-    <string name="version">Version 1.1</string>
+    <string name="version">Version 1.2</string>
 
     <string name="noroot_title">Root required</string>
     <string name="noroot_text">This application requires a rooted device.You can find instruction online on how to root your device.<br /><br />This is not an application error!</string>

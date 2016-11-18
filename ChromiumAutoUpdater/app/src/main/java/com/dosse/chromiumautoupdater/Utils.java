@@ -22,8 +22,9 @@ public class Utils {
      * @return true if su binary is present, false otherwise
      */
     public static boolean isRooted(){
-        for (String s : new String[]{"/sbin/", "/system/bin/", "/system/xbin/", "/data/local/xbin/", "/data/local/bin/", "/system/sd/xbin/", "/system/bin/failsafe/", "/data/local/"}) {
-            if ( new File( s + "su" ).exists() ) {
+        for (String s : System.getenv("PATH").split(System.getProperty("path.separator"))) {
+            log("looking for su in "+s);
+            if ( new File( s + (s.endsWith("/")?"":"/")+"su" ).exists() ) {
                 return true;
             }
         }
