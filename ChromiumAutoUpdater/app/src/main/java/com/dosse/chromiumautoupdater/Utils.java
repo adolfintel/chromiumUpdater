@@ -22,9 +22,23 @@ public class Utils {
      * @return true if su binary is present, false otherwise
      */
     public static boolean isRooted(){
+        return rootCheck1()||rootCheck2();
+    }
+
+    private static boolean rootCheck1(){
         for (String s : System.getenv("PATH").split(System.getProperty("path.separator"))) {
-            log("looking for su in "+s);
+            log("rc1 looking for su in "+s);
             if ( new File( s + (s.endsWith("/")?"":"/")+"su" ).exists() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean rootCheck2(){
+        for (String s : new String[]{"/sbin/", "/system/bin/", "/system/xbin/", "/data/local/xbin/", "/data/local/bin/", "/system/sd/xbin/", "/system/bin/failsafe/", "/data/local/"}) {
+            log("rc2 looking for su in "+s);
+            if (new File(s + "su").exists()) {
                 return true;
             }
         }
