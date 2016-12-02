@@ -20,6 +20,11 @@
         />
 
     <Preference
+        android:key="advancedSettings"
+        android:title="@string/advanced_title"
+        />
+
+    <Preference
         android:key="github"
         android:title="@string/github_title"
         android:summary="@string/github_desc"

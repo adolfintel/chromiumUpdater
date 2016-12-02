@@ -1,11 +1,13 @@
 package com.dosse.chromiumautoupdater;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -43,6 +45,14 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static boolean thirdPartyAppsAllowed(ContentResolver cr){
+        try {
+            return Settings.Secure.getInt(cr, Settings.Secure.INSTALL_NON_MARKET_APPS)!=0;
+        } catch (Throwable e) {
+            return true;
+        }
     }
 
     /**

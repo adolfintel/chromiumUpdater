@@ -34,6 +34,14 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 }
             }
         }catch (Throwable t){}
+        //advanced settings listener
+        ((Preference)findPreference("advancedSettings")).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(SettingsActivity.this,Settings2Activity.class));
+                return true;
+            }
+        });
         //github link listener
         ((Preference)findPreference("github")).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

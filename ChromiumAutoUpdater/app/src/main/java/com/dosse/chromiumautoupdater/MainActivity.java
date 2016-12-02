@@ -2,6 +2,7 @@ package com.dosse.chromiumautoupdater;
 
 import android.Manifest;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,12 +41,14 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
-    /**
-     * used to show error message on non rooted devices
-     */
     private void noRootMessage(){
         ((TextView)(findViewById(R.id.textView))).setText(getString(R.string.noroot_title));
         ((TextView)(findViewById(R.id.textView4))).setText(getString(R.string.noroot_text));
+        if(!Utils.thirdPartyAppsAllowed(getContentResolver())){
+            Intent i=new Intent(MainActivity.this,EnableNonMarketAppsActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 
 }

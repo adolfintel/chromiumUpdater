@@ -1,18 +1,20 @@
 <resources>
-    <string name="app_name">Chromium Auto Updater</string>
+    <string name="app_name" translatable="false">Chromium Auto Updater</string>
     <string name="title_activity_settings">Settings</string>
 
     <string name="title">Chromium will be updated automatically</string>
     <string name="intro">You can hide this app if you want</string>
-    <string name="version">Version 1.2.1</string>
+    <string name="version">Version 1.3</string>
 
-    <string name="noroot_title">Root required</string>
-    <string name="noroot_text">This application requires a rooted device.You can find instruction online on how to root your device.<br /><br />This is not an application error!</string>
+    <string name="noroot_title">Chromium will be updated automatically ...sort of</string>
+    <string name="noroot_text">Updates will be downloaded automatically but will have to be installed manually because this device is not rooted. You can find instructions online on how to root your device. This is not an application error.</string>
 
     <string name="notification_title">Updating Chromium</string>
     <string name="notification_starting">Starting download</string>
     <string name="notification_downloading">Downloading update</string>
     <string name="notification_installing">Installing update</string>
+    <string name="notification_noroot_ready">Chromium update available</string>
+    <string name="notification_noroot_ready_text">Tap to install</string>
 
     <string name="updateEvery_title">Update frequency (days)</string>
     <string name="avoidMobile_title">Avoid mobile connections</string>
@@ -21,7 +23,25 @@
     <string name="hide_clicked">The app will disappear soon</string>
     <string name="github_title">See project on Github</string>
     <string name="github_desc">Report bugs or contribute</string>
-    <string name="github">https://github.com/adolfintel/chromiumUpdater</string>
+    <string name="github" translatable="false">https://github.com/adolfintel/chromiumUpdater</string>
+    <string name="advanced_title">Advanced settings</string>
+    <string name="installMethod">Install method</string>
+    <string name="installMethod_auto">Auto</string>
+    <string name="installMethod_root">pm (Silent, root required)</string>
+    <string name="installMethod_noroot">Intent (Manual, no root required)</string>
+    <string name="installMethodValue_auto" translatable="false">auto</string>
+    <string name="installMethodValue_root" translatable="false">root</string>
+    <string name="installMethodValue_noroot" translatable="false">noroot</string>
+    <string name="notifyErrors">Notify internal errors</string>
+    <string name="notifyErrors_desc">Useful if something keeps failing</string>
+    <string name="noRetry">Do not retry after errors</string>
+
+    <string name="error">Error</string>
+
+    <string name="title_activity_enable_non_market_apps">Allow Third party Apps</string>
+    <string name="notpapps_title">Please allow Third party apps to be installed</string>
+    <string name="notpapps_text">Click this button and allow installation of apps from unknown sources.</string>
+    <string name="notpapps_button">Security settings</string>
 
 
 </resources>

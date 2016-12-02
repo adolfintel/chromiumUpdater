@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dosse.chromiumautoupdater">
+          package="com.dosse.chromiumautoupdater">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -19,30 +19,35 @@
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
             </intent-filter>
         </receiver>
 
         <service
             android:name=".ChromiumUpdater"
-            android:enabled="true" />
+            android:enabled="true"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
-            >
+            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar">
         </activity>
-
+        <activity
+            android:name=".Settings2Activity"
+            android:label="@string/advanced_title"
+            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar">
+        </activity>
+        <activity android:name=".EnableNonMarketAppsActivity">
+        </activity>
     </application>
 
 </manifest>

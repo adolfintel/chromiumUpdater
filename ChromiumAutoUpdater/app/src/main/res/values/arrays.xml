@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="installMethods">
+        <item>@string/installMethod_auto</item>
+        <item>@string/installMethod_root</item>
+        <item>@string/installMethod_noroot</item>
+    </string-array>
+    <string-array name="installMethodsValues">
+        <item>@string/installMethodValue_auto</item>
+        <item>@string/installMethodValue_root</item>
+        <item>@string/installMethodValue_noroot</item>
+    </string-array>
+
+
+</resources>

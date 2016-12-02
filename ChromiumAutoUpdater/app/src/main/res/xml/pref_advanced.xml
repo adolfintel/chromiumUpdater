@@ -1,0 +1,24 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="installMethod"
+        android:title="@string/installMethod"
+        android:entries="@array/installMethods"
+        android:entryValues="@array/installMethodsValues"
+        android:defaultValue="auto"
+        />
+
+    <CheckBoxPreference
+        android:key="notifyErrors"
+        android:title="@string/notifyErrors"
+        android:summary="@string/notifyErrors_desc"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="noRetry"
+        android:title="@string/noRetry"
+        android:defaultValue="false"
+        />
+
+</PreferenceScreen>

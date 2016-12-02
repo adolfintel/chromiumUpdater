@@ -1,13 +1,17 @@
 package com.dosse.chromiumautoupdater;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import static com.dosse.chromiumautoupdater.Utils.log;
 
@@ -79,6 +83,16 @@ public class ChromiumUpdater extends Service {
         }
 
         /**
+         * ignorable exceptions will not be shown even when notify errors is enabled
+         */
+        private class IgnorableException extends Exception{
+
+            public IgnorableException(String message) {
+                super(message);
+            }
+        }
+
+        /**
          * Downloads and installs the latest version of chromium from https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android
          * @return timestamp (success) or 0 (error)
          */
@@ -89,18 +103,18 @@ public class ChromiumUpdater extends Service {
                 NotificationManager mNotifyManager=null;
                 try {
                     //can we actually update chromium?
-                    if(!Utils.isRooted()){
-                        throw new Exception("Device not rooted");
+                    if(!Utils.isRooted()&&!Utils.thirdPartyAppsAllowed(getContentResolver())){
+                        throw new Exception("No root and no third party apps allowed");
                     }
                     if(!Utils.canWriteToSdcard(ChromiumUpdater.this)){
                         throw new Exception("Cannot write to sdcard");
                     }
                     if(!Utils.isConnected(getApplicationContext())){
-                        throw new Exception("No Internet");
+                        throw new IgnorableException("No Internet");
                     }
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
                     if(prefs.getBoolean("noMobileConnections",false)&&Utils.isMobileConnection(getApplicationContext())){
-                        throw new Exception("Avoiding mobile connection");
+                        throw new IgnorableException("Avoiding mobile connection");
                     }
                     //ok, we can do it
                     //create update notification with indeterminate progressbar
@@ -184,28 +198,63 @@ public class ChromiumUpdater extends Service {
                     log("deleting zip");
                     new File(sdcard,"chromium.zip").delete();
                     if(!foundApk) throw new Exception("No apk");
-                    log("installing apk");
-                    //..and proceed to install it silently using some root wizardry
-                    String path=new File(sdcard,"chromium.apk").getAbsolutePath();
-                    log(path);
-                    Process p=Runtime.getRuntime().exec("su"); //create elevated shell
-                    OutputStream os=p.getOutputStream();
-                    os.write(("pm install -r "+path+"\n").getBytes("ASCII")); os.flush(); //pm install -r chromium.apk
-                    os.write("exit\n".getBytes("ASCII")); os.flush(); os.close(); //close elevated shell
-                    p.waitFor(); //wait for it to actually terminate
-                    log("apk installed");
-                    //chromium is now installed (no real way to be sure actually) and we can delete the APK
-                    log("deleting apk");
-                    new File(path).delete();
+                    //and now we can install the apk
+                    String installMethod=prefs.getString("installMethod","auto");
+                    log("install method pref: "+installMethod);
+                    if(installMethod.equalsIgnoreCase("auto")) installMethod=Utils.isRooted()?"root":"noroot";
+                    log("install method: "+installMethod);
+                    if(installMethod.equalsIgnoreCase("root")) {
+                        //root: install it silently using some root wizardry
+                        log("installing apk - root");
+                        String path = new File(sdcard, "chromium.apk").getAbsolutePath();
+                        log(path);
+                        Process p = Runtime.getRuntime().exec("su"); //create elevated shell
+                        OutputStream os = p.getOutputStream();
+                        os.write(("pm install -r " + path + "\n").getBytes("ASCII"));
+                        os.flush(); //pm install -r chromium.apk
+                        os.write("exit\n".getBytes("ASCII"));
+                        os.flush();
+                        os.close(); //close elevated shell
+                        p.waitFor(); //wait for it to actually terminate
+                        log("apk installed");
+                        //chromium is now installed (no real way to be sure actually) and we can delete the APK
+                        log("deleting apk");
+                        new File(path).delete();
+                    }else{
+                        //no root: show update ready notification
+                        log("installing apk - no root");
+                        try{
+                            //now what the fuck is this thing? well in Android 7 they blocked file:// URIs from being passed with intents. This is a workaround.
+                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                            StrictMode.setVmPolicy(builder.build());
+                        }catch (Throwable t){log("err "+t);}
+                        NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this);
+                        mBuilder2.setContentTitle(getString(R.string.notification_noroot_ready)).setContentText(getString(R.string.notification_noroot_ready_text)).setSmallIcon(R.drawable.notification);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.fromFile(new File(sdcard, "chromium.apk")), "application/vnd.android.package-archive"); //install apk when notification is clicked
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mBuilder2.setContentIntent(PendingIntent.getActivity(ChromiumUpdater.this,0,intent,0));
+                        mBuilder2.setAutoCancel(true); //when clicked, automatically removes the notification
+                        mNotifyManager.notify(2,mBuilder2.build());
+                    }
                 } catch (Throwable e) {
                     //something bad happened, return 0
                     log("err " + e);
-                    ret=0;
+                    if(!(getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("noRetry",false)) && !(e instanceof IgnorableException)){ //if no retry is enabled, it will return the timestamp as if the update had succeeded, otherwise it will return 0; unless it's an IgnorableException, in which case it will always retry
+                        ret=0;
+                    }
+                    //if notify errors is enabled, notify it
+                    if(!(e instanceof IgnorableException) && getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("notifyErrors",false)){
+                        try{
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
+                            mBuilder.setContentTitle(getString(R.string.error)).setContentText(e.toString()).setSmallIcon(R.drawable.notification);
+                            mNotifyManager.notify(3,mBuilder.build());
+                        }catch (Throwable t){log("I failed at failing: "+t);}
+                    }
                 }
-                //remove notification
                 try{
                     mNotifyManager.cancel(1);
-                }catch (Throwable t){}
+                }catch(Throwable t){}
                 busy=false;
             }
             return ret;
