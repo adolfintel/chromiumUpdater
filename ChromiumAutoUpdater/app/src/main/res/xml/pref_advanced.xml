@@ -15,10 +15,4 @@
         android:defaultValue="false"
         />
 
-    <CheckBoxPreference
-        android:key="noRetry"
-        android:title="@string/noRetry"
-        android:defaultValue="false"
-        />
-
 </PreferenceScreen>

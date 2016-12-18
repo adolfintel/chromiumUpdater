@@ -7,11 +7,16 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
 /**
@@ -94,6 +99,7 @@ public class Utils {
     }
 
     public static final boolean USE_LOG= BuildConfig.DEBUG; //logging is only active in debug builds
+    public static final boolean USE_LOGFILE=false; //if active, log will be stored on /sdcard/chrupd.log
 
     /**
      * Log
@@ -101,6 +107,17 @@ public class Utils {
      */
     public static void log(String s){
         if(USE_LOG) Log.d("Chromium Updater",s);
+        if(USE_LOGFILE){
+            try {
+                File sdcard = Environment.getExternalStorageDirectory();
+                File logFile = new File(sdcard, "chrupd.log");
+                BufferedWriter w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(logFile, true)));
+                w.write(getTimestamp()+" - "+s+"\n");
+                w.flush();
+                w.close();
+            }catch(Throwable t){
+            }
+        }
     }
 
 }

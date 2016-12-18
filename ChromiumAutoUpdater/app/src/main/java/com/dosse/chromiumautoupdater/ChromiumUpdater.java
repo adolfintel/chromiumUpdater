@@ -240,10 +240,7 @@ public class ChromiumUpdater extends Service {
                 } catch (Throwable e) {
                     //something bad happened, return 0
                     log("err " + e);
-                    if(!(getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("noRetry",false)) && !(e instanceof IgnorableException)){ //if no retry is enabled, it will return the timestamp as if the update had succeeded, otherwise it will return 0; unless it's an IgnorableException, in which case it will always retry
-                        ret=0;
-                    }
-                    //if notify errors is enabled, notify it
+                    ret=0;
                     if(!(e instanceof IgnorableException) && getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("notifyErrors",false)){
                         try{
                             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
