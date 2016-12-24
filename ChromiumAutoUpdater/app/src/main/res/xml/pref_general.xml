@@ -13,6 +13,13 @@
         android:defaultValue="false"
         />
 
+    <CheckBoxPreference
+        android:key="notifyDone"
+        android:title="@string/notifyDone"
+        android:summary="@string/notifyDone_desc"
+        android:defaultValue="false"
+        />
+
     <Preference
         android:key="hideApp"
         android:title="@string/hide_title"

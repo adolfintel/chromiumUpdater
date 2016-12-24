@@ -4,7 +4,7 @@
 
     <string name="title">Chromium will be updated automatically</string>
     <string name="intro">You can hide this app if you want</string>
-    <string name="version">Version 1.3.1</string>
+    <string name="version">Version 1.4</string>
 
     <string name="noroot_title">Chromium will be updated automatically ...sort of</string>
     <string name="noroot_text">Updates will be downloaded automatically but will have to be installed manually because this device is not rooted. You can find instructions online on how to root your device. This is not an application error.</string>
@@ -34,6 +34,9 @@
     <string name="installMethodValue_noroot" translatable="false">noroot</string>
     <string name="notifyErrors">Notify internal errors</string>
     <string name="notifyErrors_desc">Useful if something keeps failing</string>
+    <string name="notifyDone">Notify after updating</string>
+    <string name="notifyDone_desc">Show a notification after a successful update</string>
+    <string name="notifyDone_notification">Chromium was updated successfully</string>
 
     <string name="error">Error</string>
 

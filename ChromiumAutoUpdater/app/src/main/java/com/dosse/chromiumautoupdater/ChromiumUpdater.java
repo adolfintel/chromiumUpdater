@@ -120,7 +120,7 @@ public class ChromiumUpdater extends Service {
                     //create update notification with indeterminate progressbar
                     mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
-                    mBuilder.setContentTitle(getString(R.string.notification_title)).setSmallIcon(R.drawable.notification).setContentText(getString(R.string.notification_starting));
+                    mBuilder.setContentTitle(getString(R.string.notification_title)).setSmallIcon(R.drawable.notification).setContentText(getString(R.string.notification_starting)).setOngoing(true).setShowWhen(false);
                     mBuilder.setProgress(100, 0, true);
                     mNotifyManager.notify(1, mBuilder.build());
                     File sdcard=Environment.getExternalStorageDirectory();
@@ -220,6 +220,16 @@ public class ChromiumUpdater extends Service {
                         //chromium is now installed (no real way to be sure actually) and we can delete the APK
                         log("deleting apk");
                         new File(path).delete();
+                        //show update done notification if enabled
+                        if(prefs.getBoolean("notifyDone",false)) {
+                            NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this);
+                            Intent intent = getPackageManager().getLaunchIntentForPackage("org.chromium.chrome");
+                            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mBuilder2.setContentIntent(PendingIntent.getActivity(ChromiumUpdater.this,0,intent,0)); //when tapped, launch chromium
+                            mBuilder2.setContentTitle(getString(R.string.app_name)).setContentText(getString(R.string.notifyDone_notification)).setSmallIcon(R.drawable.notification).setAutoCancel(true);
+                            mNotifyManager.notify(2, mBuilder2.build());
+                        }
                     }else{
                         //no root: show update ready notification
                         log("installing apk - no root");
