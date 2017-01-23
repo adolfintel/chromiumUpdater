@@ -53,10 +53,16 @@ public class MainActivity extends AppCompatActivity{
             //not checked: if chromium is already installed, show warning
             try{getApplicationContext().openFileOutput("TPChromiumChecked",MODE_PRIVATE).close();}catch(Throwable t2){}
             if (Utils.isPackageInstalled(getApplicationContext(), "org.chromium.chrome")) {
-                Intent i = new Intent(MainActivity.this, ChromiumAlreadyInstalledActivity.class);
-                startActivity(i);
-                finish();
-                return;
+                try{
+                    //it was installed by an older version of this app, it's fine
+                    getApplicationContext().openFileInput("lastUpdate").close();
+                }catch(Throwable t2) {
+                    //it was installed by the user or another app, show warning
+                    Intent i = new Intent(MainActivity.this, ChromiumAlreadyInstalledActivity.class);
+                    startActivity(i);
+                    finish();
+                    return;
+                }
             }
         }
         //start updater service
