@@ -48,6 +48,13 @@
         </activity>
         <activity android:name=".EnableNonMarketAppsActivity">
         </activity>
+        <activity android:name=".ChromiumAlreadyInstalledActivity">
+        </activity>
+        <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_intro"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

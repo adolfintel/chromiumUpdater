@@ -24,6 +24,22 @@ import java.util.Calendar;
  */
 
 public class Utils {
+
+    /**
+     * Checks if a package is installed
+     * @param ctx application context
+     * @param p package name (e.g. org.chromium.chrome)
+     * @return true if installed, false otherwise
+     */
+    public static boolean isPackageInstalled(Context ctx, String p){
+        try {
+            ctx.getPackageManager().getPackageInfo(p, PackageManager.GET_META_DATA);
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
     /**
      * Check if the phone is rooted
      * @return true if su binary is present, false otherwise
