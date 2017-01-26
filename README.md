@@ -12,6 +12,11 @@ If your device is rooted, you can install this app and forget it. If root is not
 
 [Download APK](http://downloads.adolfintel.com/geth.php?r=chromiumUpdater-apk)
 
+## Screenshots
+![Screenshot](http://adolfintel.com/chromium/screen1.png)
+![Screenshot](http://adolfintel.com/chromium/screen2.png)
+![Screenshot](http://adolfintel.com/chromium/screen3.png)
+
 ## Compatibility
 Android 4.4 (SDK 19) or newer. Root is required for full functionality.
 
