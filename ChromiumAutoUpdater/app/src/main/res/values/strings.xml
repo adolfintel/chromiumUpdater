@@ -3,11 +3,14 @@
     <string name="title_activity_settings">Settings</string>
 
     <string name="title">Chromium will be updated automatically</string>
+    <string name="title_manual">Ready!</string>
     <string name="intro">You can hide this app if you want</string>
+    <string name="intro_manual">Press \"Update now\" to update Chromium</string>
     <string name="needHelp">Need help?</string>
     <string name="needHelp_url">http://adolfintel.com/?p=chromium/help.frag</string>
-    <string name="version">Version 1.5</string>
-
+    <string name="updateNow">Update now</string>
+    <string name="updateNow_clicked">The update will start soon</string>
+    <string name="version">Version 1.6</string>
     <string name="noroot_title">Chromium will be updated automatically ...sort of</string>
     <string name="noroot_text">Updates will be downloaded automatically but will have to be installed manually because this device is not rooted. You can find instructions online on how to root your device. This is not an application error.</string>
 
@@ -18,6 +21,8 @@
     <string name="notification_noroot_ready">Chromium update available</string>
     <string name="notification_noroot_ready_text">Tap to install</string>
 
+    <string name="autoSwitch">Update Chromium automatically</string>
+    <string name="forceUpdate">Update now</string>
     <string name="updateEvery_title">Update frequency (days)</string>
     <string name="avoidMobile_title">Avoid mobile connections</string>
     <string name="hide_title">Hide app from menu</string>

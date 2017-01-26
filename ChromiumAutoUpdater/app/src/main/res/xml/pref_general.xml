@@ -1,11 +1,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <CheckBoxPreference
+        android:key="autoSwitch"
+        android:title="@string/autoSwitch"
+        android:defaultValue="true"
+        />
+
     <EditTextPreference
         android:key="updateEvery"
         android:title="@string/updateEvery_title"
         android:inputType="number"
         android:defaultValue="7"
     />
+
+    <Preference
+        android:key="forceUpdate"
+        android:title="@string/forceUpdate"
+        />
 
     <CheckBoxPreference
         android:key="noMobileConnections"

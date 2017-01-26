@@ -2,15 +2,15 @@ package com.dosse.chromiumautoupdater;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.Preference;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The welcome screen. It is used to start the service for the first time and to obtain necessary privileges.
@@ -82,6 +82,33 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.needHelp_url))));
             }
         });
+        //event listener for update now button
+        findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startServiceIntent = new Intent(getApplicationContext(), ChromiumUpdater.class);
+                startServiceIntent.putExtra("forced",true);
+                startService(startServiceIntent);
+                Toast.makeText(getApplicationContext(),getString(R.string.updateNow_clicked),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
+        if(prefs.getBoolean("autoSwitch",true)){
+            //if on auto, show regular text and hide the update now button
+            ((TextView)(findViewById(R.id.textView))).setText(getString(R.string.title));
+            ((TextView)(findViewById(R.id.textView4))).setText(getString(R.string.intro));
+            ((Button)(findViewById(R.id.button7))).setVisibility(View.INVISIBLE);
+        }else{
+            //if updates is on manual only, show different text and show the update now button
+            ((TextView)(findViewById(R.id.textView))).setText(getString(R.string.title_manual));
+            ((TextView)(findViewById(R.id.textView4))).setText(getString(R.string.intro_manual));
+            ((Button)(findViewById(R.id.button7))).setVisibility(View.VISIBLE);
+        }
     }
 
     private void noRootMessage(){

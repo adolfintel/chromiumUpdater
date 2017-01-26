@@ -50,23 +50,34 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 return true;
             }
         });
-        //hide from launcher listener. a file is created to disable the option disabled if the app was already hidden.
-        Preference hideApp=(Preference)findPreference("hideApp");
-        try{
-            getApplicationContext().openFileInput("hidden").close();
-            hideApp.setEnabled(false);
-        }catch (Throwable t){}
-        hideApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        //update now listener
+        ((Preference)findPreference("forceUpdate")).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent startServiceIntent = new Intent(getApplicationContext(), ChromiumUpdater.class);
+                startServiceIntent.putExtra("forced",true);
+                startService(startServiceIntent);
+                Toast.makeText(getApplicationContext(),getString(R.string.updateNow_clicked),Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+        //hide app listener
+        ((Preference)findPreference("hideApp")).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 PackageManager p = getPackageManager();
                 p.setComponentEnabledSetting(new ComponentName(SettingsActivity.this,MainActivity.class), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
                 Toast.makeText(getApplicationContext(),getString(R.string.hide_clicked),Toast.LENGTH_LONG).show();
                 try{getApplicationContext().openFileOutput("hidden",MODE_PRIVATE).close();}catch(Throwable t){}
-                finish();
+                enableDisableOptions();
                 return true;
             }
         });
+
+        //some options are only active if auto updates are active
+        enableDisableOptions();
+
     }
     @Override
     protected void onResume() {
@@ -79,6 +90,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         super.onDestroy();
     }
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        enableDisableOptions(); //update grayed out options
         if(key.equalsIgnoreCase("updateEvery")){
             //update frequency must be a positive integer
             if(Integer.parseInt(sharedPreferences.getString("updateEvery","7"))<1){
@@ -87,5 +99,25 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 e.commit();
             }
         }
+    }
+
+    private void enableDisableOptions(){
+        if(getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("autoSwitch",true)){
+            //when auto updates are enabled, updateEvery, noMobileConnections and hideApp can be changed
+            findPreference("updateEvery").setEnabled(true);
+            findPreference("noMobileConnections").setEnabled(true);
+            findPreference("hideApp").setEnabled(true);
+        }else{
+            //otherwise they're grayed out
+            findPreference("updateEvery").setEnabled(false);
+            findPreference("noMobileConnections").setEnabled(false);
+            findPreference("hideApp").setEnabled(false);
+        }
+        //if the application is hidden, hideApp is grayed out
+        try{
+            getApplicationContext().openFileInput("hidden").close();
+            ((Preference)findPreference("hideApp")).setEnabled(false);
+            ((Preference)findPreference("autoSwitch")).setEnabled(false);
+        }catch (Throwable t){}
     }
 }

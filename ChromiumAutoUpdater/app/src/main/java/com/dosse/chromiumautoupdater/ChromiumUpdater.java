@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import static com.dosse.chromiumautoupdater.Utils.log;
 
@@ -35,7 +34,7 @@ import java.util.zip.ZipInputStream;
  * The actual Updater Service.
  *
  * When the service is started, it creates a new thread which checks periodically for updates.
- * Every 30 seconds, it checks the timestamp and if it's been long enough since the last update was installed, it will download and install the latest APK.
+ * Every 10 seconds, it checks the timestamp and if it's been long enough since the last update was installed (or an update was forced), it will download and install the latest APK.
  *
  */
 
@@ -43,6 +42,7 @@ public class ChromiumUpdater extends Service {
     private static final String TAG = "Chromium Updater Svc";
 
     private static UpdateThread t=null;
+    private static boolean forcedUpdateRequested=false;
     private static boolean busy=false; //if for obscure reasons the service is started multiple times, this is used to avoid overlapping
 
     /**
@@ -55,18 +55,20 @@ public class ChromiumUpdater extends Service {
             try{
                 DataInputStream fis=new DataInputStream(getApplicationContext().openFileInput("lastUpdate"));
                 lastUpdate=fis.readLong();
-                if(lastUpdate>Utils.getTimestamp()) lastUpdate=0;
                 fis.close();
             }catch(Throwable e){}
-            //if the file was not present or was invalid, lastUpdate will be 0 and chromium will be downloaded asap
             for(;;) {
                 if(!busy){
                     log("THREAD ALIVE");
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
                     //how often do we need to download updates?
                     long updateEvery=Integer.parseInt(prefs.getString("updateEvery","7"))*86400000L; //days -> milliseconds
+                    if(lastUpdate>Utils.getTimestamp()){log("lastUpdate is in the future. Discarding."); lastUpdate=0;} //if the timestamp was invalid, lastUpdate will be 0 and chromium will be downloaded asap
                     log("Timestamp: "+Utils.getTimestamp()+" Last update: "+lastUpdate+" Next update: "+(lastUpdate+updateEvery));
-                    if(Utils.getTimestamp()-lastUpdate>=updateEvery){ //time to update
+                    if(forcedUpdateRequested||(prefs.getBoolean("autoSwitch",true)&&Utils.getTimestamp()-lastUpdate>=updateEvery)){ //time to update
+                        if(forcedUpdateRequested){
+                            log("Forced update requested");
+                        }
                         log("Updating Chromium");
                         lastUpdate=downloadUpdate(); //downloadUpdate will download and install the latest build and return either the current timestamp (success) or 0 (error, try again asap)
                         //save timestamp (or 0) to file
@@ -75,10 +77,13 @@ public class ChromiumUpdater extends Service {
                             fos.writeLong(lastUpdate);
                             fos.close();
                         }catch(Throwable e){}
+                        if(forcedUpdateRequested){
+                            forcedUpdateRequested=false;
+                        }
                     }else log("No update necessary");
                 }else log("Updater is busy, skipping tick");
-                //wait 30 seconds
-                try{sleep(30000);}catch(Throwable e){}
+                //wait 10 seconds
+                try{sleep(10000);}catch(Throwable e){}
             }
         }
 
@@ -113,8 +118,10 @@ public class ChromiumUpdater extends Service {
                         throw new IgnorableException("No Internet");
                     }
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
-                    if(prefs.getBoolean("noMobileConnections",false)&&Utils.isMobileConnection(getApplicationContext())){
-                        throw new IgnorableException("Avoiding mobile connection");
+                    if(!forcedUpdateRequested){
+                        if(prefs.getBoolean("noMobileConnections",false)&&Utils.isMobileConnection(getApplicationContext())){
+                            throw new IgnorableException("Avoiding mobile connection");
+                        }
                     }
                     //ok, we can do it
                     //create update notification with indeterminate progressbar
@@ -288,6 +295,7 @@ public class ChromiumUpdater extends Service {
         called when the service is started. creates the UpdateThread if it's not already been created and tells android to restart the service if it dies (sticky)
      */
     public int onStartCommand (Intent intent, int flags, int startId){
+        if(intent!=null&&intent.getBooleanExtra("forced",false)) forcedUpdateRequested=true;
         if(t==null||!t.isAlive()){t=new UpdateThread();t.start();}
         return START_STICKY;
     }

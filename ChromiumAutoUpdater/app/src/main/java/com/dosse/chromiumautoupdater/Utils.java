@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -15,7 +14,6 @@ import android.util.Log;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
@@ -52,6 +50,7 @@ public class Utils {
         for (String s : System.getenv("PATH").split(System.getProperty("path.separator"))) {
             log("rc1 looking for su in "+s);
             if ( new File( s + (s.endsWith("/")?"":"/")+"su" ).exists() ) {
+                log("found root");
                 return true;
             }
         }
@@ -62,6 +61,7 @@ public class Utils {
         for (String s : new String[]{"/sbin/", "/system/bin/", "/system/xbin/", "/data/local/xbin/", "/data/local/bin/", "/system/sd/xbin/", "/system/bin/failsafe/", "/data/local/"}) {
             log("rc2 looking for su in "+s);
             if (new File(s + "su").exists()) {
+                log("found root");
                 return true;
             }
         }
