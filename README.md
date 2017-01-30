@@ -10,6 +10,8 @@ If your device is rooted, you can install this app and forget it. If root is not
 ## Download
 [Download from Google Play](https://play.google.com/store/apps/details?id=com.dosse.chromiumautoupdater)
 
+[Download from F-Droid](https://f-droid.org/repository/browse/?fdid=com.dosse.chromiumautoupdater)
+
 [Download APK](http://downloads.adolfintel.com/geth.php?r=chromiumUpdater-apk)
 
 ## Screenshots
