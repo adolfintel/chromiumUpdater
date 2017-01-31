@@ -21,12 +21,23 @@
         android:layout_marginTop="25dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text4"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="40dp"/>
+
     <Button
         android:text="@string/intro_endButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button5"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/textView3"
         android:layout_marginTop="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"

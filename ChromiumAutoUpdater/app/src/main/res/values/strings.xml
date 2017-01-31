@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Chromium Auto Updater</string>
+    <string name="app_name" translatable="false">Auto Updater for Chromium</string>
     <string name="title_activity_settings">Settings</string>
 
     <string name="title">Chromium will be updated automatically</string>
@@ -58,14 +58,15 @@
     <string name="alreadyInstalled_button2">Ignore</string>
 
     <string name="title_activity_intro">Introduction</string>
-    <string name="intro_title">Welcome to Chromium Auto Updater</string>
+    <string name="intro_title">Welcome</string>
     <string name="intro_text">This app will download Chromium and keep it updated for you.</string>
     <string name="intro_swipeToContinue">Swipe to continue</string>
     <string name="intro_title2">What is Chromium?</string>
-    <string name="intro_text2">Chromium is the project at the base of Google Chrome. It\'s basically Chrome without all the Google features (and spying).</string>
+    <string name="intro_text2">Chromium is the project at the base of Google Chrome. It\'s basically the Open Source version of Chrome.</string>
     <string name="intro_title3">Problems? Check the help</string>
     <string name="intro_text3">This app downloads the very latest version of Chromium, so you may encounter bugs.</string>
     <string name="intro_text3b">These problems are completely unrelated to this app, but if you encounter them, check the help to see what you can do</string>
     <string name="intro_title4">You\'re ready to go!</string>
+    <string name="intro_text4">Just a reminder: this app is not in any way affiliated with Google or the Chromium project.</string>
     <string name="intro_endButton">Enable Updater</string>
 </resources>

@@ -1,4 +1,4 @@
-# [Chromium Auto Updater [Root]](http://adolfintel.com/?p=chromium/index.frag)
+# [Auto Updater for Chromium [Root]](http://adolfintel.com/?p=chromium/index.frag)
 ![Logo](http://adolfintel.com/chromium/icon.png) 
 
 ## Introduction
