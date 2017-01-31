@@ -7,6 +7,8 @@ Chromium on Android does not have automatic updates like Chrome. This app automa
 
 If your device is rooted, you can install this app and forget it. If root is not available, it will download updates but you will have to confirm installation.
 
+Note that this app is not in any way affiliated with Google or the Chromium project.
+
 ## Download
 [Download from Google Play](https://play.google.com/store/apps/details?id=com.dosse.chromiumautoupdater)
 
