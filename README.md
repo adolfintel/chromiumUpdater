@@ -1,5 +1,5 @@
-# [Auto Updater for Chromium [Root]](http://adolfintel.com/?p=chromium/index.frag)
-![Logo](http://adolfintel.com/chromium/icon.png) 
+# [Auto Updater for Chromium [Root]](http://fdossena.com/?p=chromium/index.frag)
+![Logo](http://fdossena.com/chromium/icon.png) 
 
 ## Introduction
 
@@ -14,12 +14,12 @@ Note that this app is not in any way affiliated with Google or the Chromium proj
 
 [Download from F-Droid](https://f-droid.org/repository/browse/?fdid=com.dosse.chromiumautoupdater)
 
-[Download APK](http://downloads.adolfintel.com/geth.php?r=chromiumUpdater-apk)
+[Download APK](http://downloads.fdossena.com/geth.php?r=chromiumUpdater-apk)
 
 ## Screenshots
-![Screenshot](http://adolfintel.com/chromium/screen1.png)
-![Screenshot](http://adolfintel.com/chromium/screen2.png)
-![Screenshot](http://adolfintel.com/chromium/screen3.png)
+![Screenshot](http://fdossena.com/chromium/screen1.png)
+![Screenshot](http://fdossena.com/chromium/screen2.png)
+![Screenshot](http://fdossena.com/chromium/screen3.png)
 
 ## Compatibility
 Android 4.4 (SDK 19) or newer. Root is required for full functionality.
