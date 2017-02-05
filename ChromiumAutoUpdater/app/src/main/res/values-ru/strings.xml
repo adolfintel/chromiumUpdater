@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name" translatable="false">Auto Updater for Chromium</string>
+    <string name="title_activity_settings">Настройки</string>
+
+    <string name="title">Chromium обновится автоматически</string>
+    <string name="title_manual">Ready!</string>
+    <string name="intro">Вы можете спрятать</string>
+    <string name="intro_manual">Нажмите \"Обновить сейчас\" что-бы обновить Chromium</string>
+    <string name="needHelp">Нужна помощь?</string>
+    <string name="needHelp_url">http://adolfintel.com/?p=chromium/help.frag</string>
+    <string name="updateNow">Обновить сейчас</string>
+    <string name="updateNow_clicked">Скоро начнеться обновление</string>
+    <string name="version">Version 1.7</string>
+    <string name="noroot_title">Chromium будет обновляться автоматически ...</string>
+    <string name="noroot_text">Обновления будут загружаться автоматически, но должны быть установлены вручную, так как это устройство не имеет рут. Вы можете найти инструкции в Интернете о том, как рутнуть ваше устройство. Это не ошибка приложения.</string>
+
+    <string name="notification_title">Обновляем Chronium</string>
+    <string name="notification_starting">Начинаем загрузку</string>
+    <string name="notification_downloading">Скачивание обновлений</string>
+    <string name="notification_installing">Установление обновлений</string>
+    <string name="notification_noroot_ready">Обновление для Chronium</string>
+    <string name="notification_noroot_ready_text">Нажмите что-бы установить</string>
+
+    <string name="autoSwitch">Обновлять Chromium автоматически</string>
+    <string name="forceUpdate">Обновить сейчас</string>
+    <string name="updateEvery_title">Частота обновления (в днях)</string>
+    <string name="avoidMobile_title">Избегать мобильных подключений</string>
+    <string name="hide_title">Скрыть предложение из меню</string>
+    <string name="hide_desc">Переустановите предложение что-бы его увидеть</string>
+    <string name="hide_clicked">Предложение скоро исчезнит</string>
+    <string name="github_title">Посмотреть проект на Github</string>
+    <string name="github_desc">Докладывать о багах и помогать проекту</string>
+    <string name="github" translatable="false">https://github.com/adolfintel/chromiumUpdater</string>
+    <string name="advanced_title">Расширенные настройки</string>
+    <string name="installMethod">Метод установки</string>
+    <string name="installMethod_auto">Авто</string>
+    <string name="installMethod_root">pm (Тихий, рут нужен)</string>
+    <string name="installMethod_noroot">Intent (Вручную, рут не нужен)</string>
+    <string name="installMethodValue_auto" translatable="false">auto</string>
+    <string name="installMethodValue_root" translatable="false">root</string>
+    <string name="installMethodValue_noroot" translatable="false">noroot</string>
+    <string name="notifyErrors">Умедомлять о внутрених ошибках</string>
+    <string name="notifyErrors_desc">Помогает когда что-то вечно ломается</string>
+    <string name="notifyDone">Умедовлять после оновления</string>
+    <string name="notifyDone_desc">Показивать обновление после удачного обновления</string>
+    <string name="notifyDone_notification">Chromium удачно обновился</string>
+
+    <string name="error">Ошибка</string>
+
+    <string name="title_activity_enable_non_market_apps">Разрешить установку приложений из неизвестных источников</string>
+    <string name="notpapps_title">Пожалуйста разрешите установку приложений из неизвестных источников</string>
+    <string name="notpapps_text">Нажмите на эту кнопку и разрешите установку приложений из неизвестных источников.</string>
+    <string name="notpapps_button">Настройки безопасности</string>
+
+    <string name="alreadyInstalled_title">У вас стоит другой Chromium</string>
+    <string name="alreadyInstalled_text">У вас стоит Chromium из другого источника. Это предложение может не правильно работать.</string>
+    <string name="alreadyInstalled_button1">Удалить</string>
+    <string name="alreadyInstalled_button2">Игнорировать</string>
+
+    <string name="title_activity_intro">Вступление</string>
+    <string name="intro_title">Добро пожаловать</string>
+    <string name="intro_text">Это предложение установит Chromium и будет его обновлять.</string>
+    <string name="intro_swipeToContinue">Пролесните что-бы продолжить</string>
+    <string name="intro_title2">Что такое Chromium</string>
+    <string name="intro_text2">Chromium это ядро Google Chrome. Это просто открытая версия Chrome.</string>
+    <string name="intro_title3">Проблемы? Посмотрите справку</string>
+    <string name="intro_text3">Это предложение установит последную версию Chromium, вы можете встретить баги.</string>
+    <string name="intro_text3b">Эти проблемы абсолютно не связаны с этим приложением, но если вы столкнетесь с ними, проверить справку, чтобы увидеть, что вы можете сделать</string>
+    <string name="intro_title4">Все готово!</string>
+    <string name="intro_text4">Просто напоминание: это предложение никак не связано с Google или с Chromium.</string>
+    <string name="intro_endButton">Включить обновления</string>
+</resources>
