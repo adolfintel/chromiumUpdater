@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Auto Updater for Chromium</string>
     <string name="title_activity_settings">Настройки</string>
 
     <string name="title">Chromium обновится автоматически</string>
@@ -10,7 +9,7 @@
     <string name="needHelp_url">http://adolfintel.com/?p=chromium/help.frag</string>
     <string name="updateNow">Обновить сейчас</string>
     <string name="updateNow_clicked">Скоро начнеться обновление</string>
-    <string name="version">Version 1.7</string>
+    <string name="version">Version 1.6</string>
     <string name="noroot_title">Chromium будет обновляться автоматически ...</string>
     <string name="noroot_text">Обновления будут загружаться автоматически, но должны быть установлены вручную, так как это устройство не имеет рут. Вы можете найти инструкции в Интернете о том, как рутнуть ваше устройство. Это не ошибка приложения.</string>
 
@@ -30,15 +29,11 @@
     <string name="hide_clicked">Предложение скоро исчезнит</string>
     <string name="github_title">Посмотреть проект на Github</string>
     <string name="github_desc">Докладывать о багах и помогать проекту</string>
-    <string name="github" translatable="false">https://github.com/adolfintel/chromiumUpdater</string>
     <string name="advanced_title">Расширенные настройки</string>
     <string name="installMethod">Метод установки</string>
     <string name="installMethod_auto">Авто</string>
     <string name="installMethod_root">pm (Тихий, рут нужен)</string>
     <string name="installMethod_noroot">Intent (Вручную, рут не нужен)</string>
-    <string name="installMethodValue_auto" translatable="false">auto</string>
-    <string name="installMethodValue_root" translatable="false">root</string>
-    <string name="installMethodValue_noroot" translatable="false">noroot</string>
     <string name="notifyErrors">Умедомлять о внутрених ошибках</string>
     <string name="notifyErrors_desc">Помогает когда что-то вечно ломается</string>
     <string name="notifyDone">Умедовлять после оновления</string>
