@@ -1,4 +1,4 @@
-# [Auto Updater for Chromium [Root]](http://fdossena.com/?p=chromium/index.frag)
+# [Auto Updater for Chromium [Root]](http://fdossena.com/?p=chromium/index.frag) ![GPLv3](https://www.gnu.org/graphics/gplv3-88x31.png)
 ![Logo](http://fdossena.com/chromium/icon.png) 
 
 ## Introduction
