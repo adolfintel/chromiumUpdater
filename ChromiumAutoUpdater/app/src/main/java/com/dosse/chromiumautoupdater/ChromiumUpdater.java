@@ -1,8 +1,10 @@
 package com.dosse.chromiumautoupdater;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,6 +14,8 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.StrictMode;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+
 import static com.dosse.chromiumautoupdater.Utils.log;
 
 import java.io.BufferedInputStream;
@@ -45,6 +49,9 @@ public class ChromiumUpdater extends Service {
     private static boolean forcedUpdateRequested=false;
     private static boolean busy=false; //if for obscure reasons the service is started multiple times, this is used to avoid overlapping
 
+    public static boolean cancelRequested=false; //set to true by Starter class when a CANCEL_ACTION event is received (cancel button on notification)
+    public static NotificationManager notifMan=null; //just for convenience, we make this public so that the Starter class can cancel notifications directly without waiting for this thread
+
     /**
      * The actual thread which checks, downloads and installs updates
      */
@@ -60,6 +67,7 @@ public class ChromiumUpdater extends Service {
             for(;;) {
                 if(!busy){
                     log("THREAD ALIVE");
+                    cancelRequested=false;
                     SharedPreferences prefs=getSharedPreferences("chromiumUpdater",MODE_PRIVATE);
                     //how often do we need to download updates?
                     long updateEvery=Integer.parseInt(prefs.getString("updateEvery","7"))*86400000L; //days -> milliseconds
@@ -90,7 +98,7 @@ public class ChromiumUpdater extends Service {
         /**
          * ignorable exceptions will not be shown even when notify errors is enabled
          */
-        private class IgnorableException extends Exception{
+        private class IgnorableException extends Exception {
 
             public IgnorableException(String message) {
                 super(message);
@@ -124,13 +132,22 @@ public class ChromiumUpdater extends Service {
                         }
                     }
                     //ok, we can do it
+                    //intent for cancel button on notification
+                    Intent cancelReceive =new Intent();
+                    cancelReceive.setAction("CANCEL_ACTION");
+                    PendingIntent cancelIntent=PendingIntent.getBroadcast(getApplicationContext(),12345,cancelReceive,PendingIntent.FLAG_IMMUTABLE);
                     //create update notification with indeterminate progressbar
                     mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    notifMan=mNotifyManager;
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
                     mBuilder.setContentTitle(getString(R.string.notification_title)).setSmallIcon(R.drawable.notification).setContentText(getString(R.string.notification_starting)).setOngoing(true).setShowWhen(false);
                     mBuilder.setProgress(100, 0, true);
+                    mBuilder.addAction(android.support.design.R.drawable.navigation_empty_icon,getString(R.string.notification_cancel),cancelIntent); //add cancel button
                     mNotifyManager.notify(1, mBuilder.build());
                     File sdcard=Environment.getExternalStorageDirectory();
+                    if(cancelRequested){
+                        throw new IgnorableException("Cancelled by user");
+                    }
                     //get id of latest build
                     URL u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/LAST_CHANGE");
                     URLConnection c = u.openConnection();
@@ -139,6 +156,9 @@ public class ChromiumUpdater extends Service {
                     String lastVer = br.readLine();
                     br.close();
                     log("last build " + lastVer);
+                    if(cancelRequested){
+                        throw new IgnorableException("Cancelled by user");
+                    }
                     //download zip of latest build to sdcard
                     u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/" + lastVer + "/chrome-android.zip");
                     c = u.openConnection();
@@ -151,6 +171,9 @@ public class ChromiumUpdater extends Service {
                     mNotifyManager.notify(1, mBuilder.build());
                     long lastNotUpdate=System.nanoTime();
                     for (;;) {
+                        if(cancelRequested){
+                            throw new IgnorableException("Cancelled by user");
+                        }
                         byte[] buff = new byte[262144];
                         try {
                             int l = in.read(buff);
@@ -172,6 +195,9 @@ public class ChromiumUpdater extends Service {
                     out.flush();
                     out.close();
                     log("download complete");
+                    if(cancelRequested){
+                        throw new IgnorableException("Cancelled by user");
+                    }
                     mBuilder.setProgress(100,0,true).setContentText(getString(R.string.notification_installing)); //set progress bar to indeterminate and show Installing update
                     mNotifyManager.notify(1, mBuilder.build());
                     //now we have to scan the zip file and extract the APK
@@ -185,6 +211,9 @@ public class ChromiumUpdater extends Service {
                             foundApk=true;
                             out = new FileOutputStream(new File(sdcard,"chromium.apk"));
                             for (;;) {
+                                if(cancelRequested){
+                                    throw new IgnorableException("Cancelled by user");
+                                }
                                 byte[] buff = new byte[262144];
                                 try {
                                     int l = zin.read(buff);
@@ -201,6 +230,7 @@ public class ChromiumUpdater extends Service {
                         }
                     }
                     zin.close();
+                    mBuilder.mActions.clear(); //remove cancel button
                     //now that we have the APK we can delete the zip file...
                     log("deleting zip");
                     new File(sdcard,"chromium.zip").delete();
@@ -255,9 +285,10 @@ public class ChromiumUpdater extends Service {
                         mNotifyManager.notify(2,mBuilder2.build());
                     }
                 } catch (Throwable e) {
-                    //something bad happened, return 0
+                    //something happened, return 0 (or timestamp if manual cancel)
                     log("err " + e);
                     ret=0;
+                    if(cancelRequested) ret=Utils.getTimestamp();
                     if(!(e instanceof IgnorableException) && getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("notifyErrors",false)){
                         try{
                             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
@@ -270,6 +301,7 @@ public class ChromiumUpdater extends Service {
                     mNotifyManager.cancel(1);
                 }catch(Throwable t){}
                 busy=false;
+                cancelRequested=false;
             }
             return ret;
         }

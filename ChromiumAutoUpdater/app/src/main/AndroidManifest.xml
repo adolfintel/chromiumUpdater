@@ -22,6 +22,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
                 <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <action android:name="CANCEL_ACTION"/>
             </intent-filter>
         </receiver>
 
@@ -55,6 +56,7 @@
             android:label="@string/title_activity_intro"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
     </application>
 
 </manifest>

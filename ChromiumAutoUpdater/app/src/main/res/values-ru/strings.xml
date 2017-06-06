@@ -6,10 +6,9 @@
     <string name="intro">Вы можете спрятать</string>
     <string name="intro_manual">Нажмите \"Обновить сейчас\" чтобы обновить Chromium</string>
     <string name="needHelp">Нужна помощь?</string>
-    <string name="needHelp_url">http://adolfintel.com/?p=chromium/help.frag</string>
     <string name="updateNow">Обновить сейчас</string>
     <string name="updateNow_clicked">Скоро начнется обновление</string>
-    <string name="version">Version 1.6</string>
+    <string name="version">Version 1.7</string>
     <string name="noroot_title">Chromium будет обновляться автоматически ...</string>
     <string name="noroot_text">Обновления будут загружаться автоматически, но должны быть установлены вручную, так как это устройство не имеет рут. Вы можете найти инструкции в Интернете о том, как рутировать ваше устройство. Это не ошибка приложения.</string>
 
@@ -19,6 +18,7 @@
     <string name="notification_installing">Установка обновлений</string>
     <string name="notification_noroot_ready">Обновление для Chronium</string>
     <string name="notification_noroot_ready_text">Нажмите чтобы установить</string>
+    <string name="notification_cancel">Отмена</string>
 
     <string name="autoSwitch">Обновлять Chromium автоматически</string>
     <string name="forceUpdate">Обновить сейчас</string>

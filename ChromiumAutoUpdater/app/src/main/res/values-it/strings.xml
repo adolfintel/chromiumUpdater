@@ -1,0 +1,67 @@
+<resources>
+    <string name="title_activity_settings">Impostazioni</string>
+
+    <string name="title">Chromium sarà aggiornato automaticamente</string>
+    <string name="title_manual">Pronto!</string>
+    <string name="intro">Puoi nascondere questa applicazione se vuoi</string>
+    <string name="intro_manual">Premi \"Aggiorna ora\" per aggiornare Chromium</string>
+    <string name="needHelp">Serve aiuto?</string>
+    <string name="updateNow">Aggiorna ora</string>
+    <string name="updateNow_clicked">L\'aggiornamento partirà tra un momento</string>
+    <string name="version">Versione 1.7</string>
+    <string name="noroot_title">Chromium sarà aggiornato automaticamente... quasi</string>
+    <string name="noroot_text">Gli aggiornamenti saranno scaricati automaticamente, ma dovrai confermare l\'installazione perchè non hai il root su questo dispositivo. Puoi cercare informazioni su come fare il root a questo dispositivo online. Questo NON è un errore dell\'applicazione.</string>
+
+    <string name="notification_title">Aggiornamento di Chromium</string>
+    <string name="notification_starting">Avvio download...</string>
+    <string name="notification_downloading">Download aggiornamento</string>
+    <string name="notification_installing">Installazione aggiornamento</string>
+    <string name="notification_noroot_ready">Aggiornamento Chromium disponibile</string>
+    <string name="notification_noroot_ready_text">Premi per installare</string>
+    <string name="notification_cancel">ANNULLA</string>
+
+    <string name="autoSwitch">Aggiorna Chromium automaticamente</string>
+    <string name="forceUpdate">Aggiorna ora</string>
+    <string name="updateEvery_title">Frequenza aggiornamenti (giorni)</string>
+    <string name="avoidMobile_title">Evita connessioni mobili</string>
+    <string name="hide_title">Nascondi applicazione dal menu</string>
+    <string name="hide_desc">Reinstalla l\'applicazione per ripristinarla</string>
+    <string name="hide_clicked">L\'icona sparirà presto</string>
+    <string name="github_title">Visualizza progetto su Github</string>
+    <string name="github_desc">Segnala problemi o contribuisci</string>
+    <string name="advanced_title">Impostazioni avanzate</string>
+    <string name="installMethod">Metodo di installazione</string>
+    <string name="installMethod_auto">Auto</string>
+    <string name="installMethod_root">pm (Silenzioso, richiede root)</string>
+    <string name="installMethod_noroot">Intent (Manuale, non serve root)</string>
+    <string name="notifyErrors">Notifica errori interni</string>
+    <string name="notifyErrors_desc">Utile se qualcosa non va...</string>
+    <string name="notifyDone">Notifica al termine dell\'aggiornamento</string>
+    <string name="notifyDone_desc">Mostra una notifica se l\'aggiornamento ha successo</string>
+    <string name="notifyDone_notification">Chromium è stato aggiornato</string>
+
+    <string name="error">Errore</string>
+
+    <string name="title_activity_enable_non_market_apps">Autorizza applicazioni di terze parti</string>
+    <string name="notpapps_title">Devi autorizzare l\'installazione di applicazioni di terze parti</string>
+    <string name="notpapps_text">Premi quì e autorizza l\'installazione da fonti sconosciute</string>
+    <string name="notpapps_button">Impostazioni sicurezza</string>
+
+    <string name="alreadyInstalled_title">Chromium già installato?</string>
+    <string name="alreadyInstalled_text">Hai installato Chromium da altre fonti. Questa applicazione potrebbe non funzionare se non viene rimosso prima.</string>
+    <string name="alreadyInstalled_button1">Rimuovi</string>
+    <string name="alreadyInstalled_button2">Ignora</string>
+
+    <string name="title_activity_intro">Introduzione</string>
+    <string name="intro_title">Benvenuto</string>
+    <string name="intro_text">Questa applicazione scarica Chromium e lo tiene aggiornato.</string>
+    <string name="intro_swipeToContinue">Trascina per continuare</string>
+    <string name="intro_title2">Cos\'è Chromium?</string>
+    <string name="intro_text2">Chromium è il progetto alla base di Google Chrome; è sostanzialmente una versione open source di Chrome.</string>
+    <string name="intro_title3">Serve aiuto?</string>
+    <string name="intro_text3">Questa applicazione scarica l\'ultimissima versione di Chromium, quindi potresti riscontrare problemi.</string>
+    <string name="intro_text3b">Questi problemi non hanno nulla a che vedere con questa app, ma puoi consultare la sezione aiuto se serve.</string>
+    <string name="intro_title4">Sei pronto!</string>
+    <string name="intro_text4">Attenzione: questa app non è in alcun modo affiliata a Google o al progetto Chromium!</string>
+    <string name="intro_endButton">Attiva aggiornamenti</string>
+</resources>
