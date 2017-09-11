@@ -81,7 +81,7 @@
 
     <string name="notifyErrors">Informiere über interne Fehler</string>
 
-    <string name="notifyErrors_desc">Nützlich, wenn etwas andauernd nicht klappt/string>
+    <string name="notifyErrors_desc">Nützlich, wenn etwas andauernd nicht klappt</string>
 
     <string name="notifyDone">Informiere nach Update</string>
 
