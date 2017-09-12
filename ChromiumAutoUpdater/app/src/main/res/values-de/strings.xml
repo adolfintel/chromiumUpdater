@@ -1,0 +1,139 @@
+<resources>
+
+    <string name="app_name" translatable="false">Auto Updater for Chromium</string>
+
+    <string name="title_activity_settings">Einstellungen</string>
+
+
+    <string name="title">Chromium wird automatisch geupdatet</string>
+
+    <string name="title_manual">Bereit!</string>
+
+    <string name="intro">Du kannst diese App verstecken wenn du willst</string>
+
+    <string name="intro_manual">Drücke \"Jetzt updaten\" um Chromium zu updaten</string>
+
+    <string name="needHelp">Brauchst du Hilfe?</string>
+
+    <string name="needHelp_url" translatable="false">http://fdossena.com/?p=chromium/help.frag</string>
+
+    <string name="updateNow">Jetzt updaten</string>
+
+    <string name="updateNow_clicked">Das Update wird gleich beginnen</string>
+
+    <string name="version">Version 1.7</string>
+
+    <string name="noroot_title">Chromium wird automatisch geupdatet ... irgendwie</string>
+
+    <string name="noroot_text">Updates werden automatisch heruntergeladen, müssen jedoch manuell installiert werden, weil dein Gerät nicht gerootet ist. Das liegt nicht an der App.</string>
+
+
+    <string name="notification_title">Update Chromium</string>
+
+    <string name="notification_starting">Starte Download</string>
+
+    <string name="notification_downloading">Downloade Update</string>
+
+    <string name="notification_installing">Installiere Update</string>
+
+    <string name="notification_noroot_ready">Chromium-Update verfügbar</string>
+
+    <string name="notification_noroot_ready_text">Zum Installieren tippen</string>
+
+    <string name="notification_cancel">ABBRECHEN</string>
+
+
+    <string name="autoSwitch">Update Chromium automatisch</string>
+
+    <string name="forceUpdate">Jetzt updaten</string>
+
+    <string name="updateEvery_title">Update-Frequenz (Tage)</string>
+
+    <string name="avoidMobile_title">Vermeide mobile Verbindungen</string>
+
+    <string name="hide_title">Verstecke App vom Menü</string>
+
+    <string name="hide_desc">Installiere die App erneut, um es wieder zu sehen</string>
+
+    <string name="hide_clicked">Die aApp wird bald verschwinden</string>
+
+    <string name="github_title">Projekt auf Github ansehen</string>
+
+    <string name="github_desc">Bugs melden oder beitragen</string>
+
+    <string name="github" translatable="false">https://github.com/adolfintel/chromiumUpdater</string>
+
+    <string name="advanced_title">Erweiterte Einstellungen</string>
+
+    <string name="installMethod">Installier-Methode</string>
+
+    <string name="installMethod_auto">Auto</string>
+
+    <string name="installMethod_root">pm (Still, Root benötigt)</string>
+
+    <string name="installMethod_noroot">Intent (Manual, kein Root benötigt)</string>
+
+    <string name="installMethodValue_auto" translatable="false">auto</string>
+
+    <string name="installMethodValue_root" translatable="false">root</string>
+
+    <string name="installMethodValue_noroot" translatable="false">noroot</string>
+
+    <string name="notifyErrors">Informiere über interne Fehler</string>
+
+    <string name="notifyErrors_desc">Nützlich, wenn etwas andauernd nicht klappt</string>
+
+    <string name="notifyDone">Informiere nach Update</string>
+
+    <string name="notifyDone_desc">Zeige Benachrichtig nach erfolgreichem Update</string>
+
+    <string name="notifyDone_notification">Chromium wurde erfolgreich geupdatet</string>
+
+
+    <string name="error">Fehler</string>
+
+
+    <string name="title_activity_enable_non_market_apps">Erlaube Drittanbieter-Appd</string>
+
+    <string name="notpapps_title">Bitte erlaube die Installation von Drittanbieter-Apps</string>
+
+    <string name="notpapps_text">Drücke diesen Knopf und erlaube die Installation von Apps aus unbekannten Quellen</string>
+
+    <string name="notpapps_button">Sicherheits-Einstellungen</string>
+
+
+    <string name="alreadyInstalled_title">Drittanbieter-Chromium entdeckt/string>
+
+    <string name="alreadyInstalled_text">Du hast Chromium aus einer anderen Quelle installiert. Dies könnte nicht richtig funktionieren, bis du diese Version deinstallierst.</string>
+
+    <string name="alreadyInstalled_button1">Deinstallieren</string>
+
+    <string name="alreadyInstalled_button2">Ignorieren</string>
+
+
+    <string name="title_activity_intro">Einführung</string>
+
+    <string name="intro_title">Willkommen</string>
+
+    <string name="intro_text">Diese App download Chromium und wird es für dich auf dem aktuellen Stand halten.</string>
+
+    <string name="intro_swipeToContinue">Zum Fortfahren wischen?</string>
+
+    <string name="intro_title2">Was ist Chromium?</string>
+
+    <string name="intro_text2">Chromium ist ein Projekt basierend auf Google Chrome. Es ist quasi die Open Source-Version von Chrome.</string>
+
+    <string name="intro_title3">Probleme? Schau in der Hilfe nach.</string>
+
+    <string name="intro_text3">Diese App downloadet die allerneuste Version von Chromium, Bugs sind nicht ausgeschlossen.</string>
+
+    <string name="intro_text3b">Diese Fehler haben zwar überhaupt nichts mit dieser App zu tun, jedoch kannst du in der Hilfe nachschauen, wenn du welche hast, um herauszufinden, was du machen kannst.</string>
+
+    <string name="intro_title4">Du bist bereit!</string>
+
+    <string name="intro_text4">Nur zur Erinnerung: Diese App: Diese App steht in keinster Weise mit Google oder dem Chromium-Projekt in Verbindung.</string>
+
+    <string name="intro_endButton">Updater aktivieren</string>
+
+</resources>
+
