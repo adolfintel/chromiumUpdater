@@ -276,7 +276,7 @@ public class ChromiumUpdater extends Service {
                             StrictMode.setVmPolicy(builder.build());
                         }catch (Throwable t){log("err "+t);}
                         NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this);
-                        mBuilder2.setContentTitle(getString(R.string.notification_noroot_ready)).setContentText(getString(R.string.notification_noroot_ready_text)).setSmallIcon(R.drawable.notification);
+                        mBuilder2.setContentTitle(getString(R.string.notification_noroot_ready)).setContentText(getString(R.string.notification_noroot_ready_text)).setSmallIcon(R.drawable.notification).setOngoing(true);
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setDataAndType(Uri.fromFile(new File(sdcard, "chromium.apk")), "application/vnd.android.package-archive"); //install apk when notification is clicked
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

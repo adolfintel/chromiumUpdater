@@ -65,7 +65,7 @@
     <string name="intro_title2">What is Chromium?</string>
     <string name="intro_text2">Chromium is the project at the base of Google Chrome. It\'s basically the Open Source version of Chrome.</string>
     <string name="intro_title3">Problems? Check the help</string>
-    <string name="intro_text3">This app downloads the very latest version of Chromium, so you may encounter bugs.</string>
+    <string name="intro_text3">This app downloads the very latest version of Chromium from Google, so you may encounter bugs.</string>
     <string name="intro_text3b">These problems are completely unrelated to this app, but if you encounter them, check the help to see what you can do</string>
     <string name="intro_title4">You\'re ready to go!</string>
     <string name="intro_text4">Just a reminder: this app is not in any way affiliated with Google or the Chromium project.</string>
