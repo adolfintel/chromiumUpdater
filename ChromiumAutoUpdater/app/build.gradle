@@ -5,9 +5,9 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.dosse.chromiumautoupdater"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 24
-        versionCode 19
+        versionCode 20
         versionName '1.7'
         vectorDrawables.useSupportLibrary = true
     }

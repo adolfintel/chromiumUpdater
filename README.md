@@ -1,5 +1,5 @@
 # [Auto Updater for Chromium [Root]](http://fdossena.com/?p=chromium/index.frag) ![GPLv3](https://www.gnu.org/graphics/gplv3-88x31.png)
-![Logo](http://fdossena.com/chromium/icon.png) 
+![Logo](http://fdossena.com/chromium/icon_new.png) 
 
 ## Introduction
 
@@ -22,10 +22,10 @@ Note that this app is not in any way affiliated with Google or the Chromium proj
 ![Screenshot](http://fdossena.com/chromium/screen3.png)
 
 ## Compatibility
-Android 4.4 (SDK 19) or newer. Root is required for full functionality.
+Android 5.0 (SDK 21) or newer. Root is required for full functionality.
 
 ## License
-Copyright (C) 2016 Federico Dossena
+Copyright (C) 2016-2018 Federico Dossena
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
