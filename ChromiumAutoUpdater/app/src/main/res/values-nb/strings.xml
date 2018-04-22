@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Auto Updater for Chromium</string>
     <string name="title_activity_settings">Innstillinger</string>
 
     <string name="title">Chromium vil bli automatisk oppdatert</string>
@@ -7,7 +6,6 @@
     <string name="intro">Du kan skjule denne appen hvis du vil</string>
     <string name="intro_manual">Trykk \"Oppdater nå\" for å oppdatere Chromium</string>
     <string name="needHelp">Trenger du hjelp?</string>
-    <string name="needHelp_url" translatable="false">http://fdossena.com/?p=chromium/help.frag</string>
     <string name="updateNow">Oppdater nå</string>
     <string name="updateNow_clicked">Oppdateringen vil starte snart</string>
     <string name="version">Versjon 1.7</string>
@@ -31,15 +29,11 @@
     <string name="hide_clicked">Appen vil forsvinne snart</string>
     <string name="github_title">Se prosjektet på GitHub</string>
     <string name="github_desc">Meld fra om bugs, eller bidra</string>
-    <string name="github" translatable="false">https://github.com/adolfintel/chromiumUpdater</string>
     <string name="advanced_title">Avanserte innstillinger</string>
     <string name="installMethod">Installeringsmetode</string>
     <string name="installMethod_auto">Auto</string>
     <string name="installMethod_root">pm (Foregår i det stille, root er påkrevd)</string>
     <string name="installMethod_noroot">Ved forespørsel (Manuelt, root er ikke påkrevd)</string>
-    <string name="installMethodValue_auto" translatable="false">auto</string>
-    <string name="installMethodValue_root" translatable="false">root</string>
-    <string name="installMethodValue_noroot" translatable="false">noroot</string>
     <string name="notifyErrors">Si ifra om interne feil</string>
     <string name="notifyErrors_desc">Nyttig dersom noe fortsetter å feile</string>
     <string name="notifyDone">Si ifra etter å ha oppdatert</string>
