@@ -8,6 +8,14 @@
         android:defaultValue="auto"
         />
 
+    <ListPreference
+        android:key="channel"
+        android:title="@string/channel"
+        android:entries="@array/channels"
+        android:entryValues="@array/channelValues"
+        android:defaultValue="stable"
+        />
+
     <CheckBoxPreference
         android:key="notifyErrors"
         android:title="@string/notifyErrors"

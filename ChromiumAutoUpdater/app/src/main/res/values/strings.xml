@@ -10,7 +10,7 @@
     <string name="needHelp_url" translatable="false">http://fdossena.com/?p=chromium/help.frag</string>
     <string name="updateNow">Update now</string>
     <string name="updateNow_clicked">The update will start soon</string>
-    <string name="version">Version 1.7</string>
+    <string name="version">Version 1.8</string>
     <string name="noroot_title">Chromium will be updated automatically ...sort of</string>
     <string name="noroot_text">Updates will be downloaded automatically but will have to be installed manually because this device is not rooted. You can find instructions online on how to root your device. This is not an application error.</string>
 
@@ -40,6 +40,11 @@
     <string name="installMethodValue_auto" translatable="false">auto</string>
     <string name="installMethodValue_root" translatable="false">root</string>
     <string name="installMethodValue_noroot" translatable="false">noroot</string>
+    <string name="channel">Channel</string>
+    <string name="channel_stable">Stable</string>
+    <string name="channel_latest">Latest</string>
+    <string name="channelValue_stable" translatable="false">stable</string>
+    <string name="channelValue_latest" translatable="false">latest</string>
     <string name="notifyErrors">Notify internal errors</string>
     <string name="notifyErrors_desc">Useful if something keeps failing</string>
     <string name="notifyDone">Notify after updating</string>

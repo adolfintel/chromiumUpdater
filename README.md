@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Chromium on Android does not have automatic updates like Chrome. This app automatically installs Chromium and keeps it updated.
+Chromium on Android does not have automatic updates like Chrome. This app automatically installs Chromium and keeps it updated. You can choose to install the stable version, or the very latest version.
 
 If your device is rooted, you can install this app and forget it. If root is not available, it will download updates but you will have to confirm installation.
 

@@ -8,7 +8,7 @@
     <string name="needHelp">Trenger du hjelp?</string>
     <string name="updateNow">Oppdater nå</string>
     <string name="updateNow_clicked">Oppdateringen vil starte snart</string>
-    <string name="version">Versjon 1.7</string>
+    <string name="version">Versjon 1.8</string>
     <string name="noroot_title">Chromium vil bli oppdatert automatisk ...på en måte</string>
     <string name="noroot_text">Oppdateringer vil bli lastet ned automatisk, men vil måtte bli installert manuelt fordi denne enheten ikke er rootet. Du kan finne instruksjoner rundt om på nettet om hvordan man rooter enheten din. Dette er ikke en appfeil.</string>
 
@@ -34,6 +34,9 @@
     <string name="installMethod_auto">Auto</string>
     <string name="installMethod_root">pm (Foregår i det stille, root er påkrevd)</string>
     <string name="installMethod_noroot">Ved forespørsel (Manuelt, root er ikke påkrevd)</string>
+    <string name="channel">Channel</string>
+    <string name="channel_stable">Stable</string>
+    <string name="channel_latest">Latest</string>
     <string name="notifyErrors">Si ifra om interne feil</string>
     <string name="notifyErrors_desc">Nyttig dersom noe fortsetter å feile</string>
     <string name="notifyDone">Si ifra etter å ha oppdatert</string>

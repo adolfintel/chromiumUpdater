@@ -11,5 +11,14 @@
         <item>@string/installMethodValue_noroot</item>
     </string-array>
 
+    <string-array name="channels">
+        <item>@string/channel_stable</item>
+        <item>@string/channel_latest</item>
+    </string-array>
+    <string-array name="channelValues">
+        <item>@string/channelValue_stable</item>
+        <item>@string/channelValue_latest</item>
+    </string-array>
+
 
 </resources>

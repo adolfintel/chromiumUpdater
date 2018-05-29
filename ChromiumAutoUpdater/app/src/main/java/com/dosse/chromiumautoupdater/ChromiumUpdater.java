@@ -20,6 +20,7 @@ import static com.dosse.chromiumautoupdater.Utils.log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -29,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.ZipEntry;
@@ -48,6 +50,7 @@ public class ChromiumUpdater extends Service {
     private static UpdateThread t=null;
     private static boolean forcedUpdateRequested=false;
     private static boolean busy=false; //if for obscure reasons the service is started multiple times, this is used to avoid overlapping
+    public static boolean isBusy(){return busy;}
 
     public static boolean cancelRequested=false; //set to true by Starter class when a CANCEL_ACTION event is received (cancel button on notification)
     public static NotificationManager notifMan=null; //just for convenience, we make this public so that the Starter class can cancel notifications directly without waiting for this thread
@@ -149,18 +152,46 @@ public class ChromiumUpdater extends Service {
                         throw new IgnorableException("Cancelled by user");
                     }
                     //get id of latest build
-                    URL u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/LAST_CHANGE");
-                    URLConnection c = u.openConnection();
-                    c.connect();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
-                    String lastVer = br.readLine();
-                    br.close();
-                    log("last build " + lastVer);
+                    String latestVer=null;
+                    URL u;
+                    URLConnection c;
+                    if(getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getString("channel",getString(R.string.channelValue_stable)).equalsIgnoreCase(getString(R.string.channelValue_stable))){
+                        u=new URL("https://omahaproxy.appspot.com/all?channel=stable&os=android");
+                        c = u.openConnection();
+                        c.connect();
+                        BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
+                        br.readLine(); //first line is useless to us
+                        latestVer = br.readLine().split(",")[7];
+                        br.close();
+                    }else{
+                        u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/LAST_CHANGE");
+                        c = u.openConnection();
+                        c.connect();
+                        BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
+                        latestVer = br.readLine();
+                        br.close();
+                    }
+                    log("latest build " + latestVer);
                     if(cancelRequested){
                         throw new IgnorableException("Cancelled by user");
                     }
+                    //check currently installed build
+                    String currentVer="";
+                    try{
+                        BufferedReader fis=new BufferedReader(new InputStreamReader(getApplicationContext().openFileInput("currentBuild")));
+                        currentVer=fis.readLine();
+                        fis.close();
+                    }catch(Throwable e){
+                    }
+                    if(cancelRequested){
+                        throw new IgnorableException("Cancelled by user");
+                    }
+                    if(currentVer.trim().equals(latestVer.trim())&&!forcedUpdateRequested){
+                        cancelRequested=true;
+                        throw new IgnorableException("Already on latest build");
+                    }
                     //download zip of latest build to sdcard
-                    u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/" + lastVer + "/chrome-android.zip");
+                    u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/" + latestVer + "/chrome-android.zip");
                     c = u.openConnection();
                     c.connect();
                     InputStream in = new BufferedInputStream(u.openStream());
@@ -284,8 +315,13 @@ public class ChromiumUpdater extends Service {
                         mBuilder2.setAutoCancel(true); //when clicked, automatically removes the notification
                         mNotifyManager.notify(2,mBuilder2.build());
                     }
+                    try{
+                        BufferedWriter fos=new BufferedWriter(new OutputStreamWriter(getApplicationContext().openFileOutput("currentBuild", Context.MODE_PRIVATE)));
+                        fos.write(latestVer.trim());
+                        fos.close();
+                    }catch(Throwable e){}
                 } catch (Throwable e) {
-                    //something happened, return 0 (or timestamp if manual cancel)
+                    //something happened, return 0 (or timestamp if cancelled)
                     log("err " + e);
                     ret=0;
                     if(cancelRequested) ret=Utils.getTimestamp();
