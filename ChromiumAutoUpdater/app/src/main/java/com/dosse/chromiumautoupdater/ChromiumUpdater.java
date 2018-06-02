@@ -26,6 +26,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -190,11 +191,32 @@ public class ChromiumUpdater extends Service {
                         cancelRequested=true;
                         throw new IgnorableException("Already on latest build");
                     }
+                    InputStream in=null;
+                    //fallback: make sure the build number actually exists. If it doesn't, find the first one that's older and exists
+                    int changes=0; //counter of how many times we decremented the build counter
+                    String originalBuildNumber=latestVer;
+                    while(changes<100) {
+                        try {
+                            u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/" + latestVer + "/chrome-android.zip");
+                            c = u.openConnection();
+                            c.connect();
+                            in = new BufferedInputStream(u.openStream());
+                            latestVer=originalBuildNumber;
+                            break;
+                        } catch (FileNotFoundException e) {
+                            latestVer=""+(Integer.parseInt(latestVer)-1);
+                            log("Decrementing to "+latestVer+" because specified build number was not found");
+                            changes++;
+                        }
+                        if(cancelRequested){
+                            throw new IgnorableException("Cancelled by user");
+                        }
+                    }
+                    if(changes>=100) throw new Exception("Build number error");
+                    if(cancelRequested){
+                        throw new IgnorableException("Cancelled by user");
+                    }
                     //download zip of latest build to sdcard
-                    u = new URL("https://commondatastorage.googleapis.com/chromium-browser-snapshots/Android/" + latestVer + "/chrome-android.zip");
-                    c = u.openConnection();
-                    c.connect();
-                    InputStream in = new BufferedInputStream(u.openStream());
                     int size=c.getContentLength(),downloaded=0;
                     FileOutputStream out = new FileOutputStream(new File(sdcard,"chromium.zip"));
                     log("download started");

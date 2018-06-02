@@ -8,7 +8,7 @@
     <string name="needHelp">Serve aiuto?</string>
     <string name="updateNow">Aggiorna ora</string>
     <string name="updateNow_clicked">L\'aggiornamento partirà tra un momento</string>
-    <string name="version">Versione 1.8</string>
+    <string name="version">Versione 1.8.1</string>
     <string name="noroot_title">Chromium sarà aggiornato automaticamente... quasi</string>
     <string name="noroot_text">Gli aggiornamenti saranno scaricati automaticamente, ma dovrai confermare l\'installazione perchè non hai il root su questo dispositivo. Puoi cercare informazioni su come fare il root a questo dispositivo online. Questo NON è un errore dell\'applicazione.</string>
 

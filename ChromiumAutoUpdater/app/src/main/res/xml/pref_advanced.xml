@@ -13,7 +13,7 @@
         android:title="@string/channel"
         android:entries="@array/channels"
         android:entryValues="@array/channelValues"
-        android:defaultValue="stable"
+        android:defaultValue="@string/channelValue_latest"
         />
 
     <CheckBoxPreference

@@ -8,7 +8,7 @@
     <string name="needHelp">Нужна помощь?</string>
     <string name="updateNow">Обновить сейчас</string>
     <string name="updateNow_clicked">Обновление скоро начнется</string>
-    <string name="version">Версия 1.8</string>
+    <string name="version">Версия 1.8.1</string>
     <string name="noroot_title">Chromium будет обновляться автоматически...</string>
     <string name="noroot_text">Обновления будут загружаться автоматически, но должны быть установлены вручную, так как это устройство не имеет рут. Вы можете найти инструкции в Интернете о том, как рутировать ваше устройство. Это не ошибка приложения.</string>
 
