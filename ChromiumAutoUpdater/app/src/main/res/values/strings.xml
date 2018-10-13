@@ -10,7 +10,7 @@
     <string name="needHelp_url" translatable="false">http://fdossena.com/?p=chromium/help.frag</string>
     <string name="updateNow">Update now</string>
     <string name="updateNow_clicked">The update will start soon</string>
-    <string name="version">Version 1.8.1</string>
+    <string name="version">Version 1.8.2</string>
     <string name="noroot_title">Chromium will be updated automatically ...sort of</string>
     <string name="noroot_text">Updates will be downloaded automatically but will have to be installed manually because this device is not rooted. You can find instructions online on how to root your device. This is not an application error.</string>
 
@@ -75,4 +75,6 @@
     <string name="intro_title4">You\'re ready to go!</string>
     <string name="intro_text4">Just a reminder: this app is not in any way affiliated with Google or the Chromium project.</string>
     <string name="intro_endButton">Enable Updater</string>
+    <string name="notEnoughSpace_title">Update failed</string>
+    <string name="notEnoughSpace_desc">Not enough free space</string>
 </resources>

@@ -8,7 +8,7 @@
     <string name="needHelp">Trenger du hjelp?</string>
     <string name="updateNow">Oppdater nå</string>
     <string name="updateNow_clicked">Oppdateringen vil starte snart</string>
-    <string name="version">Versjon 1.8.1</string>
+    <string name="version">Versjon 1.8.2</string>
     <string name="noroot_title">Chromium vil bli oppdatert automatisk ...på en måte</string>
     <string name="noroot_text">Oppdateringer vil bli lastet ned automatisk, men vil måtte bli installert manuelt fordi denne enheten ikke er rootet. Du kan finne instruksjoner rundt om på nettet om hvordan man rooter enheten din. Dette er ikke en appfeil.</string>
 
@@ -67,4 +67,6 @@
     <string name="intro_title4">Du er klar til å sette i gang!</string>
     <string name="intro_text4">Bare en rask påminnelse: Denne appen er ikke forbundet på noen som helst måte med Google eller med Chromium-prosjektet.</string>
     <string name="intro_endButton">Skru på oppdatereren</string>
+    <string name="notEnoughSpace_title">Oppdatering mislyktes</string>
+    <string name="notEnoughSpace_desc">Ikke nok plass</string>
 </resources>

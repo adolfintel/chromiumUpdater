@@ -1,6 +1,5 @@
 package com.dosse.chromiumautoupdater;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -12,9 +11,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.StatFs;
 import android.os.StrictMode;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import static com.dosse.chromiumautoupdater.Utils.log;
 
@@ -55,6 +54,8 @@ public class ChromiumUpdater extends Service {
 
     public static boolean cancelRequested=false; //set to true by Starter class when a CANCEL_ACTION event is received (cancel button on notification)
     public static NotificationManager notifMan=null; //just for convenience, we make this public so that the Starter class can cancel notifications directly without waiting for this thread
+
+    private static final long MIN_FREE_SPACE=300*1024*1024;
 
     /**
      * The actual thread which checks, downloads and installs updates
@@ -190,6 +191,17 @@ public class ChromiumUpdater extends Service {
                     if(currentVer.trim().equals(latestVer.trim())&&!forcedUpdateRequested){
                         cancelRequested=true;
                         throw new IgnorableException("Already on latest build");
+                    }
+                    //check if we have enough space to update chromium
+                    StatFs stat=new StatFs(sdcard.getAbsolutePath());
+                    log("free space: "+stat.getAvailableBytes());
+                    if(stat.getAvailableBytes()<MIN_FREE_SPACE){ //not enough space, show notification and cancel
+                        mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
+                        mBuilder.setContentTitle(getString(R.string.notEnoughSpace_title)).setContentText(getString(R.string.notEnoughSpace_desc)).setSmallIcon(R.drawable.notification);
+                        mBuilder.setAutoCancel(true);
+                        mNotifyManager.notify(4,mBuilder.build());
+                        cancelRequested=true;
+                        throw new IgnorableException("Not enough free space");
                     }
                     InputStream in=null;
                     //fallback: make sure the build number actually exists. If it doesn't, find the first one that's older and exists
@@ -371,9 +383,17 @@ public class ChromiumUpdater extends Service {
         return null;
     }
 
+    private static BroadcastReceiver broadcastReceiver;
+
     @Override
     public void onCreate() {
-        registerReceiver(new Starter(),new IntentFilter("android.intent.action.TIME_TICK")); //just to be sure, when the service is started we ask android to send an event every minute to restart it if it dies. it should not be necessary since (below) the service is declared sticky but android loves killing background shit so better safe than sorry
+        try{
+            unregisterReceiver(broadcastReceiver);
+        }catch (Throwable t){}
+        try {
+            broadcastReceiver = new Starter();
+            registerReceiver(broadcastReceiver, new IntentFilter("android.intent.action.TIME_TICK"));
+        }catch(Throwable t){}
     }
 
     @Override

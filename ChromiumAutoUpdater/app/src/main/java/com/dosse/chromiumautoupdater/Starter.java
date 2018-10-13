@@ -20,8 +20,10 @@ public class Starter extends BroadcastReceiver {
                 ChromiumUpdater.notifMan.cancel(1);
             }catch(Throwable t){}
         }else {
-            Intent startServiceIntent = new Intent(context, ChromiumUpdater.class);
-            context.startService(startServiceIntent);
+            try {
+                Intent startServiceIntent = new Intent(context, ChromiumUpdater.class);
+                context.startService(startServiceIntent);
+            }catch(Throwable t){} //try-catch added to catch a random exception sometimes thrown when the app was updated
         }
     }
 }
