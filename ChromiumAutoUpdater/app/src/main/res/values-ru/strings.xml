@@ -8,7 +8,7 @@
     <string name="needHelp">Нужна помощь?</string>
     <string name="updateNow">Обновить сейчас</string>
     <string name="updateNow_clicked">Обновление скоро начнется</string>
-    <string name="version">Версия 1.8.2</string>
+    <string name="version">Версия 1.8.3</string>
     <string name="noroot_title">Chromium будет обновляться автоматически...</string>
     <string name="noroot_text">Обновления будут загружаться автоматически, но должны быть установлены вручную, так как это устройство не имеет рут. Вы можете найти инструкции в Интернете о том, как рутировать ваше устройство. Это не ошибка приложения.</string>
 
@@ -44,6 +44,7 @@
     <string name="notifyDone_notification">Chromium обновлен успешно</string>
 
     <string name="error">Ошибка</string>
+    <string name="error_report">Отчет о проблемах</string>
 
     <string name="title_activity_enable_non_market_apps">Разрешить установку приложений из неизвестных источников</string>
     <string name="notpapps_title">Пожалуйста, разрешите установку приложений из неизвестных источников</string>
@@ -67,6 +68,6 @@
     <string name="intro_title4">Все готово!</string>
     <string name="intro_text4">Просто напоминание: это приложение никак не связано с Google или с Chromium.</string>
     <string name="intro_endButton">Включить обновления</string>
-    <string name="notEnoughSpace_title">Не удалось обновить</string>
-    <string name="notEnoughSpace_desc">недостаточно пространства</string>
+    <string name="notEnoughSpace">недостаточно пространства</string>
+    <string name="notEnoughSpace_retry">Повторим попытку позже</string>
 </resources>

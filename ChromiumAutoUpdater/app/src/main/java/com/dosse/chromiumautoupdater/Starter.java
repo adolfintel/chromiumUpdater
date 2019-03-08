@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * This class merely receives events from the system (boot, etc.) and forwards them to the service
@@ -23,7 +24,7 @@ public class Starter extends BroadcastReceiver {
             try {
                 Intent startServiceIntent = new Intent(context, ChromiumUpdater.class);
                 context.startService(startServiceIntent);
-            }catch(Throwable t){} //try-catch added to catch a random exception sometimes thrown when the app was updated
+            }catch(Throwable t){}
         }
     }
 }

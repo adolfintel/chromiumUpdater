@@ -1,9 +1,13 @@
 package com.dosse.chromiumautoupdater;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,6 +67,19 @@ public class MainActivity extends AppCompatActivity{
                     finish();
                     return;
                 }
+            }
+        }
+        //background permissions for SDK26
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+            try {
+                if(!getSystemService(PowerManager.class).isIgnoringBatteryOptimizations(getPackageName())) {
+                    Intent intent = new Intent();
+                    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+                }
+            } catch (Throwable t) {
             }
         }
         //start updater service

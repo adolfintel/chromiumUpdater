@@ -15,7 +15,7 @@
 
     <string name="updateNow_clicked">Das Update wird gleich beginnen</string>
 
-    <string name="version">Version 1.8.2</string>
+    <string name="version">Version 1.8.3</string>
 
     <string name="noroot_title">Chromium wird automatisch geupdatet ... irgendwie</string>
 
@@ -79,6 +79,7 @@
 
 
     <string name="error">Fehler</string>
+    <string name="error_report">Fehler melden</string>
 
 
     <string name="title_activity_enable_non_market_apps">Erlaube Drittanbieter-Appd</string>
@@ -120,8 +121,8 @@
     <string name="intro_text4">Nur zur Erinnerung: Diese App: Diese App steht in keinster Weise mit Google oder dem Chromium-Projekt in Verbindung.</string>
 
     <string name="intro_endButton">Updater aktivieren</string>
-    <string name="notEnoughSpace_title">Aktualisierung fehlgeschlagen</string>
-    <string name="notEnoughSpace_desc">Nicht genug platz</string>
+    <string name="notEnoughSpace">Nicht genug platz</string>
+    <string name="notEnoughSpace_retry">Wir werden es erneut versuchen</string>
 
 </resources>
 

@@ -8,7 +8,7 @@
     <string name="needHelp">Serve aiuto?</string>
     <string name="updateNow">Aggiorna ora</string>
     <string name="updateNow_clicked">L\'aggiornamento partirà tra un momento</string>
-    <string name="version">Versione 1.8.2</string>
+    <string name="version">Versione 1.8.3</string>
     <string name="noroot_title">Chromium sarà aggiornato automaticamente... quasi</string>
     <string name="noroot_text">Gli aggiornamenti saranno scaricati automaticamente, ma dovrai confermare l\'installazione perchè non hai il root su questo dispositivo. Puoi cercare informazioni su come fare il root a questo dispositivo online. Questo NON è un errore dell\'applicazione.</string>
 
@@ -44,6 +44,7 @@
     <string name="notifyDone_notification">Chromium è stato aggiornato</string>
 
     <string name="error">Errore</string>
+    <string name="error_report">Riporta</string>
 
     <string name="title_activity_enable_non_market_apps">Autorizza applicazioni di terze parti</string>
     <string name="notpapps_title">Devi autorizzare l\'installazione di applicazioni di terze parti</string>
@@ -67,6 +68,6 @@
     <string name="intro_title4">Sei pronto!</string>
     <string name="intro_text4">Attenzione: questa app non è in alcun modo affiliata a Google o al progetto Chromium!</string>
     <string name="intro_endButton">Attiva aggiornamenti</string>
-    <string name="notEnoughSpace_title">Aggiornamento fallito</string>
-    <string name="notEnoughSpace_desc">Spazio insufficiente per aggiornare</string>
+    <string name="notEnoughSpace">Spazio insufficiente per aggiornare</string>
+    <string name="notEnoughSpace_retry">Riproveremo più tardi</string>
 </resources>

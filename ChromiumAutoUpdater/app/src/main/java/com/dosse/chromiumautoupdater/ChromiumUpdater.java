@@ -1,5 +1,8 @@
 package com.dosse.chromiumautoupdater;
 
+import android.annotation.SuppressLint;
+import android.app.IntentService;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,11 +12,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.StatFs;
 import android.os.StrictMode;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 import static com.dosse.chromiumautoupdater.Utils.log;
 
@@ -144,7 +150,14 @@ public class ChromiumUpdater extends Service {
                     //create update notification with indeterminate progressbar
                     mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     notifMan=mNotifyManager;
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //on oreo and newer, create a notification channel
+                        NotificationChannel channel = new NotificationChannel(TAG, TAG, NotificationManager.IMPORTANCE_LOW);
+                        channel.enableVibration(false);
+                        channel.enableLights(false);
+                        channel.setShowBadge(true);
+                        notifMan.createNotificationChannel(channel);
+                    }
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this,TAG);
                     mBuilder.setContentTitle(getString(R.string.notification_title)).setSmallIcon(R.drawable.notification).setContentText(getString(R.string.notification_starting)).setOngoing(true).setShowWhen(false);
                     mBuilder.setProgress(100, 0, true);
                     mBuilder.addAction(android.support.design.R.drawable.navigation_empty_icon,getString(R.string.notification_cancel),cancelIntent); //add cancel button
@@ -157,7 +170,7 @@ public class ChromiumUpdater extends Service {
                     String latestVer=null;
                     URL u;
                     URLConnection c;
-                    if(getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getString("channel",getString(R.string.channelValue_stable)).equalsIgnoreCase(getString(R.string.channelValue_stable))){
+                    if(getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getString("channel",getString(R.string.channelValue_latest)).equalsIgnoreCase(getString(R.string.channelValue_stable))){
                         u=new URL("https://omahaproxy.appspot.com/all?channel=stable&os=android");
                         c = u.openConnection();
                         c.connect();
@@ -196,8 +209,8 @@ public class ChromiumUpdater extends Service {
                     StatFs stat=new StatFs(sdcard.getAbsolutePath());
                     log("free space: "+stat.getAvailableBytes());
                     if(stat.getAvailableBytes()<MIN_FREE_SPACE){ //not enough space, show notification and cancel
-                        mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
-                        mBuilder.setContentTitle(getString(R.string.notEnoughSpace_title)).setContentText(getString(R.string.notEnoughSpace_desc)).setSmallIcon(R.drawable.notification);
+                        mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this,TAG);
+                        mBuilder.setContentTitle(getString(R.string.notEnoughSpace)).setContentText(getString(R.string.notEnoughSpace_retry)).setSmallIcon(R.drawable.notification);
                         mBuilder.setAutoCancel(true);
                         mNotifyManager.notify(4,mBuilder.build());
                         cancelRequested=true;
@@ -312,6 +325,14 @@ public class ChromiumUpdater extends Service {
                         log(path);
                         Process p = Runtime.getRuntime().exec("su"); //create elevated shell
                         OutputStream os = p.getOutputStream();
+                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.P){
+                            //after oreo, pm can no longer install shit from sdcard (deliberate sabotage of custom roms by google, no doubt), so we replace sdcard with /data/local/tmp and hope for the best
+                            log("moving apk to /data/local/tmp for pie");
+                            os.write(("mv "+path+" /data/local/tmp\n").getBytes("ASCII"));
+                            os.flush();
+                            path="/data/local/tmp/chromium.apk";
+                        }
+                        log("calling pm install");
                         os.write(("pm install -r " + path + "\n").getBytes("ASCII"));
                         os.flush(); //pm install -r chromium.apk
                         os.write("exit\n".getBytes("ASCII"));
@@ -361,8 +382,23 @@ public class ChromiumUpdater extends Service {
                     if(cancelRequested) ret=Utils.getTimestamp();
                     if(!(e instanceof IgnorableException) && getSharedPreferences("chromiumUpdater",MODE_PRIVATE).getBoolean("notifyErrors",false)){
                         try{
-                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this);
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ChromiumUpdater.this,TAG);
                             mBuilder.setContentTitle(getString(R.string.error)).setContentText(e.toString()).setSmallIcon(R.drawable.notification);
+                            Intent notifyIntent = new Intent(getApplicationContext(), ShowErrorActivity.class);
+                            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            notifyIntent.putExtra("message",e.toString());
+                            try{
+                                String data="Stack trace:\n";
+                                for(StackTraceElement x:e.getStackTrace()){
+                                    data+=x.toString()+"\n";
+                                }
+                                notifyIntent.putExtra("data",data);
+                            }catch(Throwable t){
+                                notifyIntent.putExtra("data","");
+                            }
+                            PendingIntent notifyPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notifyIntent, PendingIntent.FLAG_IMMUTABLE);
+                            mBuilder.setContentIntent(notifyPendingIntent);
+                            mBuilder.setAutoCancel(true);
                             mNotifyManager.notify(3,mBuilder.build());
                         }catch (Throwable t){log("I failed at failing: "+t);}
                     }
