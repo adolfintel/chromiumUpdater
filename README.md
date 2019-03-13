@@ -10,11 +10,11 @@ If your device is rooted, you can install this app and forget it. If root is not
 Note that this app is not in any way affiliated with Google or the Chromium project.
 
 ## Download
-[Download from Google Play](https://play.google.com/store/apps/details?id=com.dosse.chromiumautoupdater)
-
 [Download from F-Droid](https://f-droid.org/repository/browse/?fdid=com.dosse.chromiumautoupdater)
 
 [Download APK](http://downloads.fdossena.com/geth.php?r=chromiumUpdater-apk)
+
+This app is not available from Google Play due to their policy regarding installing apps outside of Google Play.
 
 ## Screenshots
 ![Screenshot](http://fdossena.com/chromium/screen1.png)
