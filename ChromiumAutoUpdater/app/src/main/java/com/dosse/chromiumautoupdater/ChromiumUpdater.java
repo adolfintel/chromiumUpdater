@@ -345,10 +345,13 @@ public class ChromiumUpdater extends Service {
                         new File(path).delete();
                         //show update done notification if enabled
                         if(prefs.getBoolean("notifyDone",false)) {
-                            NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this);
-                            Intent intent = getPackageManager().getLaunchIntentForPackage("org.chromium.chrome");
-                            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this,TAG);
+                            Intent intent=null;
+                            try{
+                                intent = getPackageManager().getLaunchIntentForPackage("org.chromium.chrome");
+                                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            }catch (Throwable t){}
                             mBuilder2.setContentIntent(PendingIntent.getActivity(ChromiumUpdater.this,0,intent,0)); //when tapped, launch chromium
                             mBuilder2.setContentTitle(getString(R.string.app_name)).setContentText(getString(R.string.notifyDone_notification)).setSmallIcon(R.drawable.notification).setAutoCancel(true);
                             mNotifyManager.notify(2, mBuilder2.build());
@@ -361,11 +364,18 @@ public class ChromiumUpdater extends Service {
                             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                             StrictMode.setVmPolicy(builder.build());
                         }catch (Throwable t){log("err "+t);}
-                        NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this);
+                        NotificationCompat.Builder mBuilder2 = new NotificationCompat.Builder(ChromiumUpdater.this,TAG);
                         mBuilder2.setContentTitle(getString(R.string.notification_noroot_ready)).setContentText(getString(R.string.notification_noroot_ready_text)).setSmallIcon(R.drawable.notification).setOngoing(true);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.fromFile(new File(sdcard, "chromium.apk")), "application/vnd.android.package-archive"); //install apk when notification is clicked
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent=null;
+                        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+                            intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+                            intent.setData(Uri.fromFile(new File(sdcard, "chromium.apk"))); //install apk when notification is clicked
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        }else{
+                            intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.fromFile(new File(sdcard, "chromium.apk")), "application/vnd.android.package-archive"); //install apk when notification is clicked
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        }
                         mBuilder2.setContentIntent(PendingIntent.getActivity(ChromiumUpdater.this,0,intent,0));
                         mBuilder2.setAutoCancel(true); //when clicked, automatically removes the notification
                         mNotifyManager.notify(2,mBuilder2.build());
