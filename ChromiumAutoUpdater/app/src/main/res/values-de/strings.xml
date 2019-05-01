@@ -40,7 +40,7 @@
     <string name="notifyErrors">Informiere über interne Fehler</string>
     <string name="notifyErrors_desc">Nützlich, wenn etwas andauernd nicht klappt.</string>
     <string name="notifyDone">Informiere nach Update</string>
-    <string name="notifyDone_desc">Zeige Benachrichtig nach erfolgreichem Update.</string>
+    <string name="notifyDone_desc">Zeige Benachrichtigung nach erfolgreichem Update.</string>
     <string name="notifyDone_notification">Chromium wurde erfolgreich aktualisiert</string>
 
     <string name="error">Fehler</string>
