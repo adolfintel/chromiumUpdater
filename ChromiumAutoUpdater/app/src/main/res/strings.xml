@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name" translatable="false">Auto Updater for Chromium</string>
+    <string name="title_activity_settings">設定</string>
+
+    <string name="title">Chromium 將自動更新</string>
+    <string name="title_manual">準備!</string>
+    <string name="intro">如果需要，您可以隱藏此應用程式</string>
+    <string name="intro_manual">按下 \"立即更新\" 以更新 Chromium</string>
+    <string name="needHelp">需要幫助嗎？</string>
+    <string name="needHelp_url" translatable="false">http://fdossena.com/?p=chromium/help.frag</string>
+    <string name="updateNow">立即更新</string>
+    <string name="updateNow_clicked">更新很快就開始</string>
+    <string name="version">Version 1.8.4</string>
+    <string name="noroot_title">Chromium 將自動更新......排序</string>
+    <string name="noroot_text">更新將自動下載，但您必須手動安裝，因為此設備沒有 Root 權限。您可以線上找到有關如何 Root 您的設備的說明。這不是應用程式錯誤。</string>
+
+    <string name="notification_title">更新 Chromium</string>
+    <string name="notification_starting">開始下載</string>
+    <string name="notification_downloading">正在下載更新</string>
+    <string name="notification_installing">安裝更新</string>
+    <string name="notification_noroot_ready">Chromium 有更新可用</string>
+    <string name="notification_noroot_ready_text">點擊可安裝</string>
+    <string name="notification_cancel">取消</string>
+
+    <string name="autoSwitch">自動更新 Chromium</string>
+    <string name="forceUpdate">立即更新</string>
+    <string name="updateEvery_title">更新頻率（天）</string>
+    <string name="avoidMobile_title">避免移動連線</string>
+    <string name="hide_title">從選單中隱藏應用</string>
+    <string name="hide_desc">重新安裝應用程式以再次看到它</string>
+    <string name="hide_clicked">該應用程式很快就會消失</string>
+    <string name="github_title">查看 Github 上的專案</string>
+    <string name="github_desc">回報錯誤或貢獻</string>
+    <string name="github" translatable="false">https://github.com/adolfintel/chromiumUpdater</string>
+    <string name="advanced_title">進階設定</string>
+    <string name="installMethod">安裝方式</string>
+    <string name="installMethod_auto">自動</string>
+    <string name="installMethod_root">pm（靜默，需要 Root 權限）</string>
+    <string name="installMethod_noroot">Intent（手動，無需 Root 權限）</string>
+    <string name="installMethodValue_auto" translatable="false">auto</string>
+    <string name="installMethodValue_root" translatable="false">root</string>
+    <string name="installMethodValue_noroot" translatable="false">noroot</string>
+    <string name="channel">通道</string>
+    <string name="channel_stable">穩定版</string>
+    <string name="channel_latest">最新版</string>
+    <string name="channelValue_stable" translatable="false">stable</string>
+    <string name="channelValue_latest" translatable="false">latest</string>
+    <string name="notifyErrors">通知內部錯誤</string>
+    <string name="notifyErrors_desc">如果出問題，這會很有用</string>
+    <string name="notifyDone">更新後通知</string>
+    <string name="notifyDone_desc">成功更新後顯示通知</string>
+    <string name="notifyDone_notification">Chromium 已成功更新</string>
+    <string name="notEnoughSpace">沒有足夠的空間進行更新</string>
+
+    <string name="error">錯誤</string>
+    <string name="error_report">回報</string>
+
+    <string name="title_activity_enable_non_market_apps">允許第三方應用程式</string>
+    <string name="notpapps_title">請允許安裝第三方應用程式</string>
+    <string name="notpapps_text">按下此按鈕並允許安裝來自未知來源的應用程式。</string>
+    <string name="notpapps_button">安全設定</string>
+
+    <string name="alreadyInstalled_title">檢測到第三方的 Chromium</string>
+    <string name="alreadyInstalled_text">您已從其他來源安裝了Chromium。除非您先解除安裝此版本，否則此應用程式可能無法正常運作。</string>
+    <string name="alreadyInstalled_button1">解除安裝</string>
+    <string name="alreadyInstalled_button2">略過</string>
+
+    <string name="title_activity_intro">簡介</string>
+    <string name="intro_title">歡迎</string>
+    <string name="intro_text">這個應用程式將下載 Chromium 並為您保持更新。</string>
+    <string name="intro_swipeToContinue">滑動即可繼續</string>
+    <string name="intro_title2">什麼是 Chromium？</string>
+    <string name="intro_text2">Chromium 是 Google Chrome 基礎專案。它基本上是 Chrome 的開源版本。</string>
+    <string name="intro_title3">問題？檢查幫助</string>
+    <string name="intro_text3">這個應用程式是從谷歌下載最新版本的 Chromium，所以您可能會遇到錯誤。</string>
+    <string name="intro_text3b">這些問題與此應用程式完全無關，但您如果遇到這些問題，請查看幫助以了解您可以執行的操作</string>
+    <string name="intro_title4">你已經準備好了!</string>
+    <string name="intro_text4">只是提醒一下：這個應用程式與 Google 或 Chromium 專案沒有任何關聯。</string>
+    <string name="intro_endButton">啟用更新程式</string>
+    <string name="notEnoughSpace_retry">我們稍後再試</string>
+</resources>
